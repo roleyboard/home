@@ -50,4 +50,39 @@ export const songs: Song[] = [
     cover: "/covers/truth-aint-what-it-used-to-be.png",
     audio: "/audio/truth-aint-what-it-used-to-be.mp3",
   },
+
+  {
+    id: 7,
+    title: "Burn A Little Longer",
+    cover: "/covers/burn-a-little-longer.png",
+    audio: "/audio/burn-a-little-longer.mp3",
+  },
+
+  {
+    id: 8,
+    title: "Everything! Everywhere!",
+    cover: "/covers/everything-everywhere.png",
+    audio: "/audio/everything-everywhere.mp3",
+  },
+
+  {
+    id: 9,
+    title: "Superstar",
+    cover: "/covers/superstar.png",
+    audio: "/audio/superstar.mp3",
+  },
+
+  {
+    id: 10,
+    title: "True Love",
+    cover: "/covers/true-love.jpeg",
+    audio: "/audio/true-love.mp3",
+  },
+
+  {
+    id: 11,
+    title: "Beautiful Land",
+    cover: "/covers/beautiful-land.jpeg",
+    audio: "/audio/beautiful-land.mp3",
+  },
 ];
