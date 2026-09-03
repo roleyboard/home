@@ -1,0 +1,58 @@
+.chord-container {
+
+  color: white;
+      overflow: hidden;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.chord-info {
+  
+  margin-top: 5px;
+  text-align: left;
+  margin-left: 10px;
+  font-size: x-large;
+text-wrap: nowrap;
+
+}
+
+.chord-notes {
+font-weight: bold;
+  margin-left: 2px;
+  font-size: 14px;
+color: yellow;
+}
+
+.inversion {
+  font-size: medium;
+margin-left: 10px;
+  color: lightgray;
+  font-weight: bold;
+}
+
+.inversion span {
+  font-size: 14px;
+  margin-left: 10px;
+color:lime;
+}
+
+.inversion button {
+  border-radius: 15px;
+  min-width: 38px;
+  height: 28px;
+  font-size: large;
+  color: black;
+  margin-left: 5px;
+  border: 1px solid black;
+}
+
+.inversion button:hover {
+  color: white;
+  background-color: teal;
+
+}
+
+.inversion button:sel {
+  color: white;
+  background-color: teal;
+
+}

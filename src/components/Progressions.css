@@ -1,0 +1,100 @@
+.progressions {
+    margin: 5px;
+font-family: 'Times New Roman', Times, serif;
+    text-align: left;
+    font-weight: bold;
+}
+
+.progression-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.progression-header select {
+    font-size: large;
+    border-radius: 12px;
+    padding: 0 10px;
+    width: 80px;
+    color: black;
+}
+
+.progression-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.progression-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 6px 10px;
+    border: 1px solid var(--text-color);
+    border-radius: 12px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.progression-row.selected {
+    background-color: var(--text-color);
+    color: var(--background-color);
+
+}
+
+.progression-row.selected button {
+    border: 1px solid var(--background-color);
+
+}
+
+
+.prog-roman {
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    display: flex;
+
+    gap: 4px;
+}
+
+
+
+.prog-chords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+}
+
+.prog-chord-button {
+    color: black;
+    padding: 2px 8px;
+
+    min-width: 25px;
+    border-radius: 12px;
+    font-size: 18px;
+    color: blue;
+    border: 1px solid var(--text-color);
+
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;    
+}
+
+.prog-chord-button:hover {
+    background-color: orange;
+    color: black;
+}
+
+.prog-chord-button:focus {
+    background-color: orange !important;
+    color: black;
+}
+
+.prog-chord-button:active {
+    background-color: orange !important;
+    color: black;
+}
+
+.progression-info {
+ color: black;
+    font-style: italic;
+}

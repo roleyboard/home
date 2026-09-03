@@ -1,0 +1,71 @@
+.chord-shape-block {
+  float: left;
+  width: 110px;
+  background-color: white;
+  border-radius: 12px;
+  margin: 5px;
+  padding: 0px;
+}
+
+.chord-shape-block div {
+  margin: 0px 0px 5px 0px;
+  padding: 0px;
+
+}
+
+
+.guitar-fretboard:after {
+  content: "";
+  display: table;
+}
+
+.chord-overlay {
+  text-align: center;
+}
+
+.chord-overlay span{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 12px;
+  color: seagreen;
+  word-spacing: -1px;
+  width:100%;
+  font-weight: bold;
+}
+
+.overlay-cell {
+padding: 0 3px;
+position: relative;
+bottom:5px
+}
+
+.fret-pos {
+
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: large;
+  font-weight: bold;
+  color: crimson;
+  text-align: center;
+  position: relative;
+  top: 8px
+}
+
+.variant-navigation {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+
+  height: 70px;
+  width: 75px;
+}
+
+.variant-navigation button {
+  font-size: medium;
+  padding: 0;
+  margin: 0;
+  border-radius: 12px;
+  width: 80px;
+
+}

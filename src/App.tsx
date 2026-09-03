@@ -1,13 +1,18 @@
 import { useState } from 'react'
 import './App.css'
+import Chart from './components/Chart'
+import CoF from './components/CoF'
 import Footer from './components/Footer'
 import Header from './components/Header'
+import Modes from './components/Modes'
+import Progressions from './components/Progressions'
 import SongCard from './components/SongCard'
 import SongPlayer from './components/SongPlayer'
 import type { Song } from './data/songs'
 import { songs } from './data/songs'
 
 export default function App() {
+  const [activeTool, setActiveTool] = useState('tabs')
   const [selectedSong, setSelectedSong] = useState<Song | null>(null)
   const [queue, setQueue] = useState<Song[]>(songs)
 
@@ -32,36 +37,65 @@ export default function App() {
     setSelectedSong(queue[currentIndex + 1] ?? null)
   }
 
+  const renderTool = () => {
+    if (activeTool === 'chart') return <Chart onChordSelect={() => undefined} />
+    if (activeTool === 'cof') return <CoF onChordSelect={() => undefined} />
+    if (activeTool === 'modes') return <Modes onChordSelect={() => undefined} />
+    if (activeTool === 'progressions') return <Progressions onChordSelect={() => undefined} />
+
+    return (
+      <section className="music" aria-labelledby="music-heading">
+        <div className="section-heading">
+          <h2 id="music-heading">Listen</h2>
+          <button type="button" className="shuffle-button" onClick={shuffleUpcoming}>
+            <span aria-hidden="true">&#8644;</span> Shuffle upcoming
+          </button>
+        </div>
+
+        <div className="song-list">
+          {queue.map((song, index) => (
+            <SongCard
+              key={song.id}
+              song={song}
+              position={index + 1}
+              isPlaying={selectedSong?.id === song.id}
+              onSelect={setSelectedSong}
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
   return (
     <>
       <Header />
 
-      <main id="top">
-        <section className="music" aria-labelledby="music-heading">
-          <div className="section-heading">
-            <h2 id="music-heading">Listen</h2>
-            <button type="button" className="shuffle-button" onClick={shuffleUpcoming}>
-              <span aria-hidden="true">&#8644;</span> Shuffle upcoming
-            </button>
-          </div>
-
-          <div className="song-list">
-            {queue.map((song, index) => (
-              <SongCard
-                key={song.id}
-                song={song}
-                position={index + 1}
-                isPlaying={selectedSong?.id === song.id}
-                onSelect={setSelectedSong}
-              />
-            ))}
-          </div>
-        </section>
-      </main>
+      <main id="top">{renderTool()}</main>
 
       <Footer />
 
-      {selectedSong && (
+      <nav className="fixed-tab-bar" aria-label="Musaic tools">
+        {[
+          ['tabs', '📝', 'Tabs'],
+          ['chart', '🎸', 'Chart'],
+          ['cof', '⭕️', 'CoF'],
+          ['modes', '🎨', 'Modes'],
+          ['progressions', '🎹', 'Progs'],
+        ].map(([tool, icon, label]) => (
+          <button
+            key={tool}
+            className={`fixed-tab ${activeTool === tool ? 'is-active' : ''}`}
+            type="button"
+            onClick={() => setActiveTool(tool)}
+          >
+            <span aria-hidden="true">{icon}</span>
+            <span>{label}</span>
+          </button>
+        ))}
+      </nav>
+
+      {selectedSong && activeTool === 'tabs' && (
         <SongPlayer key={selectedSong.id} song={selectedSong} onEnded={playNext} />
       )}
     </>

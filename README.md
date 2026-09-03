@@ -1,4 +1,9 @@
-# React + TypeScript + Vite
+# Damian Music
+
+Home for Damian's music app, built with React, TypeScript, and Vite.
+
+- Repository: https://github.com/roleyboard/home
+- Live app: https://musaic.damian-mus.uk/
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

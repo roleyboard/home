@@ -14,6 +14,7 @@ export default function Footer() {
         <a className="back-to-top" href="#top">
           Back to top <span aria-hidden="true">&#8593;</span>
         </a>
+        <a href="https://github.com/roleyboard/home">View on GitHub</a>
         <p>&copy; {year} Damian. All rights reserved.</p>
       </div>
     </footer>

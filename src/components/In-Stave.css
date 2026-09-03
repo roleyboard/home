@@ -1,0 +1,20 @@
+.stave-container {
+
+    background-color: wheat;
+    height: 110px;
+    max-width: 221px;
+margin-left: 5px;
+  border-radius: 12px;
+}
+
+
+.stave {
+  margin-left: -10px;
+}
+
+.modeTitle {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 0;
+
+}

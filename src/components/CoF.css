@@ -1,0 +1,255 @@
+.container {
+  margin: 5px;
+  font-size: large;
+
+}
+
+
+
+.circle-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  transition: transform 4s ease-in-out;
+  flex-direction: row;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bold;
+  position: relative;
+  top: -75px;
+  max-width: 500px;
+}
+
+.major-ring,
+.minor-ring {
+  transform-origin: 380px 380px;
+  transition: transform 4s ease-in-out;
+}
+
+.minor-ring g:hover circle,
+.major-ring g:hover circle {
+  fill: green;
+}
+
+
+
+.glow {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  98% {
+    filter: drop-shadow(0 0 6px white);
+  }
+
+  49% {
+    filter: drop-shadow(0 0 20px green);
+  }
+}
+
+circle {
+  transform: translateZ(0);
+
+}
+
+.diminished-display circle {
+  transition: fill 0.4s ease;
+}
+
+.diminished-display text {
+
+  font-weight: bold;
+  font-size: xx-large;
+  pointer-events: none;
+}
+
+/* container */
+.three-columns-grid {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 60px;
+
+
+}
+
+/* columns */
+.three-columns-grid {
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+}
+
+.three-columns-grid span {
+  font-size: small;
+  font-weight: bold;
+}
+
+.relative {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+
+}
+
+
+.tonic {
+  background-color: green;
+  border: 2px solid;
+  color: white;
+
+}
+
+.subdominant {
+  background-color: blue;
+  color: white;
+
+}
+
+.dominant {
+  background-color: red;
+  color: white;
+}
+
+.submediant {
+  background-color: orangered;
+  color: white;
+}
+
+.supertonic {
+  background-color: teal;
+
+  color: white;
+}
+
+.mediant {
+  background-color: purple;
+  color: white;
+}
+
+.subtonic {
+  background-color: saddlebrown;
+  color: white;
+  height: fit-content;
+}
+
+
+
+.cof-roman {
+  position: relative;
+  bottom: 3px;
+  margin-left: 15px;
+
+  padding: 3px 10px;
+  background-color: yellow;
+  border-radius: 12px;
+  color: black;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.secondary-dominants {
+  font-family: 'Times New Roman', Times, serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+
+}
+
+.secondary-dominants span {
+  font-size: small;
+  font-weight: bold;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+}
+
+
+
+.secondary-dominants ul {
+  list-style: none;
+  font-size: small;
+  padding: 5px 0 0 0;
+  margin: 0;
+}
+
+.three-columns-grid {
+  height: fit-content;
+  vertical-align: middle;
+}
+
+.three-columns-grid button {
+  padding: 4px 10px;
+  font-size: 18px;
+  margin-bottom: 2px;
+  border-radius: 12px;
+  border-color: black;
+  color: blue;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.three-columns-grid button:hover,
+.three-columns-grid button:active,
+.three-columns-grid button:focus {
+  background-color: orange;
+  color: black;
+}
+
+.keySig {
+  margin-top: 2px;
+
+  color: black;
+  text-align: left;
+  padding-left: 10px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 18px;
+  padding-top: 5px;
+  overflow: hidden;
+}
+
+.stave {
+  margin-top: -20px;
+}
+
+
+.pane1 {
+  margin-bottom: -90px;
+}
+
+.substitution {
+  margin: 0;
+  padding: 0;
+}
+
+.substitution fieldset {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 16px;
+  border-radius: 12px;
+}
+
+.substitution legend {
+  font-size: 14px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 2px;
+  padding: 2px 10px;
+}
+
+.substitution div {
+  font-size: 15px;
+}
+
+.substitution button {
+  padding: 4px 10px;
+  font-size: 18px;
+  margin: 0 10px 2px 15px;
+
+  border-radius: 12px;
+  border-color: black;
+  color: blue;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.substitution button:focus,
+.substitution button:active,
+.substitution button:hover {
+  background-color: orange;
+}

@@ -1,0 +1,25 @@
+.insight-buttons {
+  float: right;
+  text-align: right;
+  width: 105px;
+  position: relative;
+
+}
+
+.insight-buttons button {
+  padding: 5px;
+  margin: 3px;
+  border-radius: 12px;
+  width: 45px;
+  height: 45px;
+  font-size: x-large;
+  border: 1px solid black;
+}
+
+.insight-buttons button:hover {
+  background-color: yellow;
+}
+
+.insight-buttons button.selected {
+  background-color: teal;
+}
