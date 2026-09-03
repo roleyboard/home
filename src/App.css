@@ -88,7 +88,7 @@
   position: fixed;
   z-index: 8;
   left: 50%;
-  bottom: max(12px, env(safe-area-inset-bottom));
+  bottom: calc(64px + max(12px, env(safe-area-inset-bottom)));
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr) 52px;
   gap: 14px;
@@ -200,6 +200,44 @@
 .footer-wordmark { font-weight: 700; letter-spacing: .14em; }
 .back-to-top { display: inline-flex; gap: 6px; }
 
+.fixed-tab-bar {
+  position: fixed;
+  z-index: 9;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  min-height: 64px;
+  padding: 4px max(8px, env(safe-area-inset-right)) max(4px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, .08);
+  backdrop-filter: blur(18px);
+}
+
+.fixed-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 6px 4px;
+  border: 0;
+  color: var(--text);
+  background: transparent;
+  font: 600 11px/1.2 var(--sans);
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.fixed-tab span:first-child { font-size: 20px; line-height: 1; }
+.fixed-tab:hover,
+.fixed-tab.is-active { color: var(--accent); }
+.fixed-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 @media (max-width: 720px) {
@@ -212,7 +250,7 @@
   .song-cover { width: 54px; height: 54px; }
   .song-title { font-size: 15px; }
   .row-play { font-size: 13px; }
-  .now-playing { bottom: max(8px, env(safe-area-inset-bottom)); grid-template-columns: 52px minmax(0, 1fr) 46px; gap: 10px; width: calc(100% - 16px); padding: 8px; }
+  .now-playing { bottom: calc(64px + max(8px, env(safe-area-inset-bottom))); grid-template-columns: 52px minmax(0, 1fr) 46px; gap: 10px; width: calc(100% - 16px); padding: 8px; }
   .now-playing-cover img { width: 52px; height: 52px; }
   .play-pause { width: 44px; height: 44px; }
   .details-backdrop { padding: 0; }

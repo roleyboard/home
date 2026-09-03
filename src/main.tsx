@@ -5,7 +5,31 @@ import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <>
+      <App />
+      <nav className="fixed-tab-bar" aria-label="Musaic tools">
+        <a className="fixed-tab is-active" href="/" aria-current="page">
+          <span aria-hidden="true">📝</span>
+          <span>Tabs</span>
+        </a>
+        <button className="fixed-tab" type="button">
+          <span aria-hidden="true">🎸</span>
+          <span>Chart</span>
+        </button>
+        <button className="fixed-tab" type="button">
+          <span aria-hidden="true">⭕️</span>
+          <span>CoF</span>
+        </button>
+        <button className="fixed-tab" type="button">
+          <span aria-hidden="true">🎨</span>
+          <span>Modes</span>
+        </button>
+        <button className="fixed-tab" type="button">
+          <span aria-hidden="true">🎹</span>
+          <span>Progs</span>
+        </button>
+      </nav>
+    </>
   </StrictMode>,
 )
 
