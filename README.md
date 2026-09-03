@@ -5,15 +5,14 @@ Home for Damian's music app, built with React, TypeScript, and Vite.
 - Repository: https://github.com/roleyboard/home
 - Live app: https://musaic.damian-mus.uk/
 
-## Cloudflare Pages
+## Cloudflare Workers
 
-Use these project settings for a Git-connected Pages deployment:
+This repository deploys to the existing Cloudflare Worker service named `home`:
 
 - Build command: `npm run build`
-- Build output directory: `dist`
 - Deploy command: `npm run deploy`
 
-The deploy command must use `wrangler pages deploy`, not `wrangler deploy`, because this is a Cloudflare Pages site rather than a Workers script.
+The Worker configuration in `wrangler.jsonc` serves the Vite build from `dist`. In Cloudflare's Git deployment settings, connect `https://github.com/roleyboard/home`, use the `main` branch, and run `npm run deploy`.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
