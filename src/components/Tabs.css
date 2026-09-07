@@ -138,26 +138,12 @@
 }
 
 .sheet-toolbar h2 {
+	margin: 0;
 	font-size: clamp(1.05rem, 3vw, 1.5rem);
 }
 
 .sheet-toolbar .tabs-eyebrow {
 	margin-bottom: 2px;
-}
-
-.sheet-close {
-	display: grid;
-	place-items: center;
-	width: 40px;
-	height: 40px;
-	flex: 0 0 auto;
-	border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
-	border-radius: 50%;
-	background: transparent;
-	color: inherit;
-	font-size: 1.7rem;
-	line-height: 1;
-	cursor: pointer;
 }
 
 .sheet-controls {
@@ -251,7 +237,8 @@
 	.sheet-dialog,
 	.source-dialog {
 		width: 100%;
-		height: 100%;
+		height: 100vh;
+		height: 100dvh;
 		border: 0;
 		border-radius: 0;
 	}
@@ -266,6 +253,30 @@
 
 	.notation-viewer > div {
 		padding: 10px;
+	}
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+	.tabs-backdrop {
+		padding: 0;
+	}
+
+	.sheet-dialog,
+	.source-dialog {
+		width: 100%;
+		height: 100vh;
+		height: 100dvh;
+		border: 0;
+		border-radius: 0;
+	}
+
+	.sheet-toolbar {
+		min-height: 72px;
+		padding: 14px 20px;
+	}
+
+	.sheet-controls {
+		min-height: 52px;
 	}
 }
 

@@ -7,7 +7,7 @@ export default function Footer() {
         <a className="footer-wordmark" href="#top" aria-label="Damian, back to top">
           <h6>damian-mus.uk</h6>
         </a>
-        <p>Original music. Stories in sound.</p>
+        <p>LISTEN, LEARN, CREATE</p>
       </div>
 
       <div className="footer-meta">

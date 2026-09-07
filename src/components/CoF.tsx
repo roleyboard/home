@@ -166,7 +166,7 @@ export default function CoF({ onChordSelect }: CoFProps) {
       <div className="music-heading">
         <div>
           <p className="music-eyebrow">LEARN</p>
-          <h2 id="music-heading">Circle of fifths</h2>
+          <h2 id="music-heading">Circle of Fifths</h2>
         </div>
 
       </div>

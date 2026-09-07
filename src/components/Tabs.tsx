@@ -184,7 +184,7 @@ export default function Tabs() {
                 <p className="tabs-eyebrow">MusicXML score</p>
                 <h2 id="sheet-title">{selectedTab.title}</h2>
               </div>
-              <button type="button" className="sheet-close" onClick={closeOverlays} aria-label="Close score">
+              <button type="button" className="close-button sheet-close" onClick={closeOverlays} aria-label="Close score">
                 <span aria-hidden="true">&times;</span>
               </button>
             </header>
@@ -232,7 +232,7 @@ export default function Tabs() {
                 <p className="tabs-eyebrow">Raw MusicXML</p>
                 <h2 id="source-title">{selectedTab.title}</h2>
               </div>
-              <button type="button" className="sheet-close" onClick={closeOverlays} aria-label="Close raw XML">
+              <button type="button" className="close-button sheet-close" onClick={closeOverlays} aria-label="Close raw XML">
                 <span aria-hidden="true">&times;</span>
               </button>
             </header>

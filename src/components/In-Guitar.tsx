@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import Chord from "@tombatossals/react-chords/lib/Chord";
+import chordModule from "@tombatossals/react-chords/lib/Chord";
 import './In-Guitar.css';
 import guitarChords from './guitar.json';
+
+const GuitarChord = (chordModule as unknown as { default?: typeof chordModule }).default ?? chordModule;
 
 interface InGuitarProps {
   guitarChordName: string; // e.g., 'Am'
@@ -150,7 +152,7 @@ const selectedVariants = chordVariants.filter(
             
             <div className="fret-pos">Fret {position.baseFret}</div>
             
-            <Chord
+            <GuitarChord
               chord={{
                 frets: position.frets,
                 fingers: position.fingers,

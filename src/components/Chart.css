@@ -22,6 +22,7 @@
   border-radius: 12px;
   font-size: 15px;
   margin: 2px;
+  border-color: white;
 }
 
 .white-note {
@@ -34,6 +35,7 @@
   border-radius: 12px;
   margin: 2px;
   font-weight: bold;
+  background-color: white;
 }
 
 .chord-type:hover,
@@ -67,10 +69,11 @@
   font-size: 20px;
   margin: 4px;
   border-radius: 12px;
-  border-color: black;
+  border-color: grey;
   color: blue;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    height: 35px
+    height: 35px;
+    background-color: lightgrey
 }
 
 .chord-type:hover {
@@ -85,6 +88,7 @@
   border-color: black;
   color: blue;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      background-color: lightgrey;
 }
 
 

@@ -4,6 +4,7 @@ import './App.css'
 import Tabs from './components/Tabs'
 import Chart from './components/Chart'
 import CoF from './components/CoF'
+import Chord from './components/Chord'
 import Footer from './components/Footer'
 import Modes from './components/Modes'
 import Progressions from './components/Progressions'
@@ -13,8 +14,9 @@ import type { Song } from './data/songs'
 import { songs } from './data/songs'
 
 export default function App() {
-  const [activeTool, setActiveTool] = useState('tabs')
+  const [activeTool, setActiveTool] = useState('songs')
   const [selectedSong, setSelectedSong] = useState<Song | null>(null)
+  const [selectedChord, setSelectedChord] = useState<string | null>(null)
   const [queue, setQueue] = useState<Song[]>(songs)
 
   const shuffleUpcoming = () => {
@@ -49,10 +51,10 @@ export default function App() {
 
   const renderTool = () => {
     if (activeTool === 'tabs') return <Tabs />
-    if (activeTool === 'chart') return <Chart onChordSelect={() => undefined} />
-    if (activeTool === 'cof') return <CoF onChordSelect={() => undefined} />
-    if (activeTool === 'modes') return <Modes onChordSelect={() => undefined} />
-    if (activeTool === 'progressions') return <Progressions onChordSelect={() => undefined} />
+    if (activeTool === 'chart') return <Chart onChordSelect={setSelectedChord} />
+    if (activeTool === 'cof') return <CoF onChordSelect={setSelectedChord} />
+    if (activeTool === 'modes') return <Modes onChordSelect={setSelectedChord} />
+    if (activeTool === 'progressions') return <Progressions onChordSelect={setSelectedChord} />
 
     return (
 
@@ -88,7 +90,22 @@ export default function App() {
     <>
 
 
-      <main id="top">{renderTool()}</main>
+      <main id="top">
+        {renderTool()}
+        {selectedChord && (
+          <aside className="selected-chord" aria-label={`Selected chord: ${selectedChord}`}>
+            <button
+              type="button"
+              className="close-button selected-chord-close"
+              onClick={() => setSelectedChord(null)}
+              aria-label="Close chord display"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <Chord chord={selectedChord} />
+          </aside>
+        )}
+      </main>
 
       <Footer />
 
@@ -107,7 +124,12 @@ export default function App() {
       </nav>
 
       {selectedSong && activeTool === 'songs' && (
-        <SongPlayer key={selectedSong.id} song={selectedSong} onEnded={playNext} />
+        <SongPlayer
+          key={selectedSong.id}
+          song={selectedSong}
+          onEnded={playNext}
+          onClose={() => setSelectedSong(null)}
+        />
       )}
     </>
   )

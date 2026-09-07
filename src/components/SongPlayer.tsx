@@ -5,9 +5,10 @@ import type { Song } from '../data/songs'
 type SongPlayerProps = {
   song: Song
   onEnded: () => void
+  onClose: () => void
 }
 
-export default function SongPlayer({ song, onEnded }: SongPlayerProps) {
+export default function SongPlayer({ song, onEnded, onClose }: SongPlayerProps) {
   const audio = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(true)
   const [showDetails, setShowDetails] = useState(false)
@@ -29,6 +30,22 @@ export default function SongPlayer({ song, onEnded }: SongPlayerProps) {
 
     return () => controller.abort()
   }, [song.lyrics])
+
+  useEffect(() => {
+    if (!showDetails) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setShowDetails(false)
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = ''
+    }
+  }, [showDetails])
 
   const togglePlayback = () => {
     if (!audio.current) return
@@ -62,6 +79,10 @@ export default function SongPlayer({ song, onEnded }: SongPlayerProps) {
           <span aria-hidden="true">{isPlaying ? 'Ⅱ' : '▶'}</span>
         </button>
 
+        <button type="button" className="close-button now-playing-close" onClick={onClose} aria-label="Close player">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
         <audio
           ref={audio}
           key={song.id}
@@ -88,6 +109,20 @@ export default function SongPlayer({ song, onEnded }: SongPlayerProps) {
               <span className="sr-only">Close artwork and lyrics</span>
             </button>
             <img className="details-cover" src={song.cover} alt={`${song.title} cover`} />
+            <div className="details-player" aria-label={`Playback controls for ${song.title}`}>
+              <button
+                type="button"
+                className="play-pause"
+                onClick={togglePlayback}
+                aria-label={isPlaying ? 'Pause' : 'Play'}
+              >
+                <span aria-hidden="true">{isPlaying ? 'Ⅱ' : '▶'}</span>
+              </button>
+              <div>
+                <span className="details-player-label">Now playing</span>
+                <strong>{song.title}</strong>
+              </div>
+            </div>
             <div className="lyrics">
               <h2 id="details-title">{song.title}</h2>
               {song.lyrics ? (
