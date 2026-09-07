@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import Tabs from './components/Tabs'
 import Chart from './components/Chart'
 import CoF from './components/CoF'
 import Footer from './components/Footer'
@@ -38,6 +39,7 @@ export default function App() {
   }
 
   const renderTool = () => {
+    if (activeTool === 'tabs') return <Tabs />
     if (activeTool === 'chart') return <Chart onChordSelect={() => undefined} />
     if (activeTool === 'cof') return <CoF onChordSelect={() => undefined} />
     if (activeTool === 'modes') return <Modes onChordSelect={() => undefined} />
@@ -77,6 +79,7 @@ export default function App() {
 
       <nav className="fixed-tab-bar" aria-label="Musaic tools">
         {[
+          ['songs', '📝', 'Songs'],
           ['tabs', '📝', 'Tabs'],
           ['chart', '🎸', 'Chart'],
           ['cof', '⭕️', 'CoF'],

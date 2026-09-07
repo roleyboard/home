@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@tombatossals/react-chords": "^0.2.10",
+    "opensheetmusicdisplay": "^2.1.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-markdown": "^10.1.0",
