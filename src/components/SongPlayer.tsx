@@ -66,8 +66,9 @@ export default function SongPlayer({ song, onEnded, onClose }: SongPlayerProps) 
         </button>
 
         <button type="button" className="now-playing-copy" onClick={() => setShowDetails(true)}>
-          <span>Now playing</span>
+          
           <strong>{song.title}</strong>
+          <span>Tap to view Lyrics</span>
         </button>
 
         <button

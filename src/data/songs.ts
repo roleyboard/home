@@ -63,6 +63,7 @@ export const songs: Song[] = [
     title: "Everything! Everywhere!",
     cover: "/covers/everything-everywhere.png",
     audio: "/audio/everything-everywhere.mp3",
+    lyrics: "/lyrics/everything-everywhere.md",
   },
 
   {

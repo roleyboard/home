@@ -15,7 +15,7 @@ export default function SongCard({ song, position, isPlaying, onSelect }: SongCa
         <img className="song-cover" src={song.cover} alt="" />
         <span className="song-copy">
           <span className="song-title">{song.title}</span>
-          <span className="song-subtitle">{isPlaying ? 'Now playing' : 'Tap to play'}</span>
+          <span className="song-subtitle">{isPlaying ? 'NOW PLAYING' : 'Tap to play'}</span>
         </span>
         <span className="row-play" aria-hidden="true">&#9654;</span>
       </button>

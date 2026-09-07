@@ -17,7 +17,8 @@ font-family: 'Times New Roman', Times, serif;
     border-radius: 12px;
     padding: 0 10px;
     width: 80px;
-    color: black;
+    color: var(--bg);
+        background-color: var(--text);
 }
 
 .progression-list {
@@ -69,7 +70,7 @@ font-family: 'Times New Roman', Times, serif;
 .prog-chord-button {
     color: black;
     padding: 2px 8px;
-
+    background-color: lightgrey;
     min-width: 25px;
     border-radius: 12px;
     font-size: 18px;

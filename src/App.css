@@ -102,7 +102,11 @@ margin-left: 10px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.song-subtitle { display: block; margin-top: 4px; font-size: 13px; }
+.song-subtitle { 
+
+  display: block; color: var(--accent); font-size: 11px;  letter-spacing: .1em;
+
+}
 .row-play { color: var(--accent); text-align: center; }
 
 .selected-chord {
@@ -188,7 +192,7 @@ margin-left: 10px;
 
 .now-playing-cover img { display: block; width: 64px; height: 64px; border-radius: 8px; object-fit: cover; }
 .now-playing-copy { min-width: 0; text-align: left; }
-.now-playing-copy span { display: block; color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.now-playing-copy span { display: block; color: var(--accent); font-size: 11px; letter-spacing: .1em}
 .now-playing-copy strong { display: block; overflow: hidden; margin-top: 3px; color: var(--bg); text-overflow: ellipsis; white-space: nowrap; }
 
 .play-pause {
