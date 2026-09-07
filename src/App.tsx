@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { CircleDot, FileMusic, Guitar, Music2, Palette, Piano } from 'lucide-react'
 import './App.css'
 import Tabs from './components/Tabs'
 import Chart from './components/Chart'
@@ -37,6 +38,15 @@ export default function App() {
     const currentIndex = queue.findIndex((song) => song.id === selectedSong.id)
     setSelectedSong(queue[currentIndex + 1] ?? null)
   }
+
+  const tools = [
+    { tool: 'songs', icon: Music2, label: 'Songs' },
+    { tool: 'tabs', icon: FileMusic, label: 'Tabs' },
+    { tool: 'chart', icon: Guitar, label: 'Chart' },
+    { tool: 'cof', icon: CircleDot, label: 'CoF' },
+    { tool: 'modes', icon: Palette, label: 'Modes' },
+    { tool: 'progressions', icon: Piano, label: 'Progs' },
+  ]
 
   const renderTool = () => {
     if (activeTool === 'tabs') return <Tabs />
@@ -78,21 +88,14 @@ export default function App() {
       <Footer />
 
       <nav className="fixed-tab-bar" aria-label="Musaic tools">
-        {[
-          ['songs', '📝', 'Songs'],
-          ['tabs', '📝', 'Tabs'],
-          ['chart', '🎸', 'Chart'],
-          ['cof', '⭕️', 'CoF'],
-          ['modes', '🎨', 'Modes'],
-          ['progressions', '🎹', 'Progs'],
-        ].map(([tool, icon, label]) => (
+        {tools.map(({ tool, icon: Icon, label }) => (
           <button
             key={tool}
             className={`fixed-tab ${activeTool === tool ? 'is-active' : ''}`}
             type="button"
             onClick={() => setActiveTool(tool)}
           >
-            <span aria-hidden="true">{icon}</span>
+            <Icon className="fixed-tab-icon" aria-hidden="true" />
             <span>{label}</span>
           </button>
         ))}
