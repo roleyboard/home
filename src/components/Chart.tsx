@@ -73,8 +73,18 @@ const Chart: React.FC<ChartProps> = ({ onChordSelect }) => {
   };
 
   return (
-    <div className="chord-chart">
-      <div className="tool-title">🎸 Chord Chart</div>
+    <section className="music-container" aria-labelledby="music-heading">
+      <div className="music-heading">
+        <div>
+          <p className="music-eyebrow">LEARN</p>
+          <h2 id="music-heading">Chord Chart</h2>
+        </div>
+
+      </div>
+
+
+
+
       {/* Black Notes */}
       <div className="piano-layout">
         <div className="half-gap"></div>
@@ -150,7 +160,7 @@ const Chart: React.FC<ChartProps> = ({ onChordSelect }) => {
           </fieldset>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

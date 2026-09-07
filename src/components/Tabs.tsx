@@ -136,26 +136,26 @@ export default function Tabs() {
   }, [isAutoScrolling, isViewerOpen, scrollSpeed]);
 
   return (
-    <section className="tabs-container" aria-labelledby="tabs-heading">
-      <div className="tabs-heading">
+    <section className="music-container" aria-labelledby="music-heading">
+      <div className="music-heading">
         <div>
-          <p className="tabs-eyebrow">MusicXML library</p>
-          <h2 id="tabs-heading">Choose a tab</h2>
+          <p className="music-eyebrow">LEARN</p>
+          <h2 id="music-heading">Tabs</h2>
         </div>
         <p className="tabs-count">{tabFiles.length} scores</p>
       </div>
 
-      <div className="tab-list" aria-label="MusicXML scores">
+      <div className="song-list tab-list" aria-label="MusicXML scores">
         {tabFiles.map((tabFile, index) => (
-          <article className="tab-card" key={tabFile.fileName}>
-            <button type="button" className="tab-select" onClick={() => openTab(tabFile.fileName)}>
-              <span className="tab-position">{String(index + 1).padStart(2, '0')}</span>
-              <img className="tab-cover" src={`/covers/${tabFile.img}`} alt="" />
-              <span className="tab-copy">
-                <strong>{tabFile.title}</strong>
-                <span>Open score</span>
+          <article className="song-card tab-card" key={tabFile.fileName}>
+            <button type="button" className="song-select tab-select" onClick={() => openTab(tabFile.fileName)}>
+              <span className="queue-position">{index + 1}</span>
+              <img className="song-cover" src={`/covers/${tabFile.img}`} alt="" />
+              <span className="song-copy">
+                <span className="song-title">{tabFile.title}</span>
+                <span className="song-subtitle">Tap to open</span>
               </span>
-              <span className="tab-play" aria-hidden="true">&#9654;</span>
+              <span className="row-play" aria-hidden="true">&#9654;</span>
             </button>
             <button
               type="button"

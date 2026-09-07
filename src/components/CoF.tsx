@@ -162,10 +162,14 @@ export default function CoF({ onChordSelect }: CoFProps) {
 
   return (
 
+    <section className="music-container" aria-labelledby="music-heading">
+      <div className="music-heading">
+        <div>
+          <p className="music-eyebrow">LEARN</p>
+          <h2 id="music-heading">Circle of fifths</h2>
+        </div>
 
-    <div className="container">
-      <div className="tool-title">⭕️ Circle of fifths</div>
-
+      </div>
 
 
       {(() => {
@@ -563,6 +567,6 @@ export default function CoF({ onChordSelect }: CoFProps) {
       </div>
 
 
-    </div >
+    </section>
   );
 }

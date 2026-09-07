@@ -329,8 +329,17 @@ const Modes: React.FC<ModesProps> = ({ onChordSelect }) => {
   });
 
   return (
-    <div className="chord-chart">
-      <div className="tool-title">🎨 Modes</div>
+
+
+        <section className="music-container" aria-labelledby="music-heading">
+      <div className="music-heading">
+        <div>
+          <p className="music-eyebrow">LEARN</p>
+          <h2 id="music-heading">Modes</h2>
+        </div>
+
+      </div>
+
 
       {/* Black Notes */}
       <div className="piano-layout">
@@ -526,7 +535,7 @@ const Modes: React.FC<ModesProps> = ({ onChordSelect }) => {
       ))}
 
 
-    </div>
+    </section>
   );
 };
 export default Modes;

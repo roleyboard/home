@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="footer-identity">
         <a className="footer-wordmark" href="#top" aria-label="Damian, back to top">
-          DAMIAN
+          <h6>damian-mus.uk</h6>
         </a>
         <p>Original music. Stories in sound.</p>
       </div>
@@ -14,8 +14,8 @@ export default function Footer() {
         <a className="back-to-top" href="#top">
           Back to top <span aria-hidden="true">&#8593;</span>
         </a>
-        <a href="https://github.com/roleyboard/home">View on GitHub</a>
-        <p>&copy; {year} Damian. All rights reserved.</p>
+
+        <p>&copy; {year} Damian Durnford. All rights reserved.</p>
       </div>
     </footer>
   )

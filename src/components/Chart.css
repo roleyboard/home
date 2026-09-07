@@ -3,14 +3,7 @@
   flex-wrap: wrap;
 }
 
-.tool-title {
-  text-align: left;
-  font-size: x-large;
-  margin-bottom: 8px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-weight: bold;
-  margin-left: 5px;
-}
+
 
 .piano-layout {
   margin: auto;

@@ -5,7 +5,6 @@ import Tabs from './components/Tabs'
 import Chart from './components/Chart'
 import CoF from './components/CoF'
 import Footer from './components/Footer'
-import Header from './components/Header'
 import Modes from './components/Modes'
 import Progressions from './components/Progressions'
 import SongCard from './components/SongCard'
@@ -56,13 +55,19 @@ export default function App() {
     if (activeTool === 'progressions') return <Progressions onChordSelect={() => undefined} />
 
     return (
-      <section className="music" aria-labelledby="music-heading">
-        <div className="section-heading">
-          <h2 id="music-heading">Listen</h2>
-          <button type="button" className="shuffle-button" onClick={shuffleUpcoming}>
+
+    <section className="music-container" aria-labelledby="music-heading">
+      <div className="music-heading">
+        <div>
+          <p className="music-eyebrow">LISTEN</p>
+          <h2 id="music-heading">Songs</h2>
+        </div>
+<button type="button" className="shuffle-button" onClick={shuffleUpcoming}>
             <span aria-hidden="true">&#8644;</span> Shuffle upcoming
           </button>
-        </div>
+      </div>
+
+
 
         <div className="song-list">
           {queue.map((song, index) => (
@@ -81,7 +86,7 @@ export default function App() {
 
   return (
     <>
-      <Header />
+
 
       <main id="top">{renderTool()}</main>
 
@@ -101,7 +106,7 @@ export default function App() {
         ))}
       </nav>
 
-      {selectedSong && activeTool === 'tabs' && (
+      {selectedSong && activeTool === 'songs' && (
         <SongPlayer key={selectedSong.id} song={selectedSong} onEnded={playNext} />
       )}
     </>

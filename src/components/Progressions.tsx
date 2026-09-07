@@ -44,8 +44,16 @@ const Progressions: React.FC<ProgressionsProps> = ({ onChordSelect }) => {
   ];
 
   return (
-    <div className="progressions">
-      <div className="tool-title">🎹 Chord Progressions</div>
+
+    <section className="music-container" aria-labelledby="music-heading">
+      <div className="music-heading">
+        <div>
+          <p className="music-eyebrow">CREATE</p>
+          <h2 id="music-heading">Chord Progressions</h2>
+        </div>
+
+      </div>
+
 
       <div className="progression-header">
         <label>Change Key:</label>
@@ -80,7 +88,7 @@ const Progressions: React.FC<ProgressionsProps> = ({ onChordSelect }) => {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
