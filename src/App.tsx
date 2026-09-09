@@ -50,7 +50,7 @@ export default function App() {
   ]
 
   const renderTool = () => {
-    if (activeTool === 'tabs') return <Tabs />
+    if (activeTool === 'tabs') return <Tabs onChordSelect={setSelectedChord} />
     if (activeTool === 'chart') return <Chart onChordSelect={setSelectedChord} />
     if (activeTool === 'cof') return <CoF onChordSelect={setSelectedChord} />
     if (activeTool === 'modes') return <Modes onChordSelect={setSelectedChord} />
