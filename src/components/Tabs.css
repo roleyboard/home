@@ -233,6 +233,26 @@
 	z-index: 1;
 }
 
+.tab-refresh {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	min-width: 0;
+	margin: -4px 0;
+	padding: 4px;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.tab-refresh:focus-visible {
+	border-radius: 5px;
+	outline: 2px solid var(--accent, #0f766e);
+	outline-offset: 2px;
+}
+
 .tab-toolbar-image {
 	width: 52px;
 	height: 52px;
@@ -246,10 +266,25 @@
 	margin-right: auto;
 }
 
+.sheet-close {
+	flex: 0 0 auto;
+	margin-left: auto;
+}
+
 .tab-toolbar-title h2 {
 	margin: 0;
 	font-size: clamp(1rem, 2.5vw, 1.35rem);
 	text-align: left;
+}
+
+.tab-toolbar-heading,
+.tab-toolbar-subtitle {
+	display: block;
+}
+
+.tab-toolbar-heading {
+	font-size: clamp(1rem, 2.5vw, 1.35rem);
+	font-weight: 700;
 }
 
 .tab-toolbar-title p {
@@ -259,8 +294,14 @@
 	text-align: left;
 }
 
+.tab-toolbar-subtitle {
+	margin-top: 3px;
+	color: var(--text, #6b6375);
+	font-size: 0.82rem;
+}
+
 .tab-content {
-	padding: 22px 24px 36px;
+	padding: 0 20px;
 	text-align: left;
 	color: var(--text-h, #222);
 	font: 1.18rem/1.75 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -274,20 +315,20 @@
 }
 
 .tab-section-heading {
-	margin: 0.45rem 0;
+	margin: 1rem 0 .3rem 0;
 	color: white;
 	font: 700 1.35rem/1.2 var(--heading);
 	letter-spacing: 4px;
-	background-color: rgb(107, 61, 120);
+	background-color: #0f766e;
 	padding: 0.25rem 0.5rem;
 }
 
 .tab-chord {
 	padding: 0;
 	border: 0;
-	border-bottom: 2px solid color-mix(in srgb, var(--accent, #aa3bff) 65%, transparent);
-	background: color-mix(in srgb, var(--accent-bg, #f0e0ff) 75%, transparent);
-	color: var(--accent, #7d22c7);
+	border-bottom: 2px solid color-mix(in srgb, var(--accent, #0f766e) 65%, transparent);
+	background: color-mix(in srgb, var(--accent-bg, #d1fae5) 75%, transparent);
+	color: var(--accent, #0f766e);
 	font: inherit;
 	letter-spacing: 2px;
 	cursor: pointer;
@@ -296,7 +337,7 @@
 
 .tab-chord:hover,
 .tab-chord:focus-visible {
-	background: var(--accent-bg, #f0e0ff);
+	background: var(--accent-bg, #d1fae5);
 	color: var(--text-h, #222);
 }
 
@@ -352,10 +393,20 @@
 	}
 
 	.tab-content {
-		padding: 18px 14px 28px;
-		font-size: 1rem;
-		line-height: 1.65;
+			padding: 0 15px;
+		font-size: .9rem;
+letter-spacing: 0px;
 	}
+
+	.tab-chord {
+		font-size: .9rem;
+letter-spacing: 0px;
+}
+
+.tab-section-heading {
+		font-size: .9rem;
+}
+
 
 	.tab-toolbar {
 		flex-wrap: wrap;

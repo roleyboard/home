@@ -18,16 +18,22 @@ export default function TabsXML({ fileName, title, subTitle, image, mode, onClos
   const [error, setError] = useState('');
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const [scrollSpeed, setScrollSpeed] = useState(1);
+  const [refreshToken, setRefreshToken] = useState(0);
   const notationRef = useRef<HTMLDivElement | null>(null);
   const notationViewportRef = useRef<HTMLDivElement | null>(null);
   const extension = fileName.split('.').pop()?.toUpperCase() ?? 'FILE';
   const isScore = mode === 'score';
   const isMusicXml = isScore && extension === 'MUSICXML';
   const isTab = isScore && extension === 'TAB';
+  const refreshTab = () => {
+    setIsLoading(true);
+    setError('');
+    setRefreshToken((token) => token + 1);
+  };
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch(`/tabs/${encodeURIComponent(fileName)}`, { signal: controller.signal })
+    fetch(`/tabs/${encodeURIComponent(fileName)}`, { signal: controller.signal, cache: 'no-store' })
       .then((response) => {
         if (!response.ok) throw new Error(`Could not load ${fileName}`);
         return response.text();
@@ -40,7 +46,7 @@ export default function TabsXML({ fileName, title, subTitle, image, mode, onClos
       .finally(() => setIsLoading(false));
 
     return () => controller.abort();
-  }, [extension, fileName]);
+  }, [extension, fileName, refreshToken]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -138,7 +144,7 @@ export default function TabsXML({ fileName, title, subTitle, image, mode, onClos
 
         {isLoading && <p className="tabs-status">Loading {extension}...</p>}
         {error && <p className="tabs-status tabs-error">{error}</p>}
-        {!isLoading && !error && isTab && <TabsTab source={source} title={title} subTitle={subTitle} image={image} onClose={onClose} onChordSelect={onChordSelect} />}
+        {!isLoading && !error && isTab && <TabsTab source={source} title={title} subTitle={subTitle} image={image} onClose={onClose} onRefresh={refreshTab} onChordSelect={onChordSelect} />}
         {!isLoading && !error && isMusicXml && <div className="notation-viewer sheet-viewer" ref={notationViewportRef} aria-live="polite"><div ref={notationRef} /></div>}
         {!isLoading && !error && !isScore && <pre className="musicxml-source">{source}</pre>}
       </section>

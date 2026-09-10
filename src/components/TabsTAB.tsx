@@ -6,13 +6,14 @@ interface TabsTABProps {
   subTitle: string;
   image: string;
   onClose: () => void;
+  onRefresh: () => void;
   onChordSelect: (chord: string) => void;
 }
 
 const chordPattern = /^[A-G](?:#|b)?(?:maj|min|m|dim|aug|sus|add)?\d*(?:sus\d*)?(?:\/[A-G](?:#|b)?)?$/;
 const sectionPattern = /^\s*\[([^\]]+)\]\s*$/;
 
-export default function TabsTab({ source, title, subTitle, image, onClose, onChordSelect }: TabsTABProps) {
+export default function TabsTab({ source, title, subTitle, image, onClose, onRefresh, onChordSelect }: TabsTABProps) {
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const [scrollSpeed, setScrollSpeed] = useState(1);
   const viewportRef = useRef<HTMLDivElement | null>(null);
@@ -39,11 +40,13 @@ export default function TabsTab({ source, title, subTitle, image, onClose, onCho
   return (
     <div className="tab-viewer" ref={viewportRef}>
       <div className="tab-toolbar">
-        <img className="tab-toolbar-image" src={`/covers/${image}`} alt="" />
-        <div className="tab-toolbar-title">
-          <h2 id="tab-dialog-title">{title}</h2>
-          {subTitle && <p>{subTitle}</p>}
-        </div>
+        <button type="button" className="tab-refresh" onClick={onRefresh} aria-label="Refresh tab file" title="Refresh tab file">
+          <img className="tab-toolbar-image" src={`/covers/${image}`} alt="" />
+          <span className="tab-toolbar-title">
+            <span className="tab-toolbar-heading" id="tab-dialog-title">{title}</span>
+            {subTitle && <span className="tab-toolbar-subtitle">{subTitle}</span>}
+          </span>
+        </button>
         <div className="tab-controls" aria-label="TAB controls">
           <button type="button" className="sheet-control" onClick={() => setIsAutoScrolling((isScrolling) => !isScrolling)}>
             <span aria-hidden="true">{isAutoScrolling ? 'Ⅱ' : '▶'}</span>
