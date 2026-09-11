@@ -1,38 +1,39 @@
 .chord-info {
-  
   margin-top: 5px;
+  margin-bottom: 5px;
   text-align: left;
-  margin-left: 10px;
+  margin-left: 0;
   font-size: x-large;
-text-wrap: nowrap;
-
-}
-
-.chord-notes {
-font-weight: bold;
-  margin-left: 2px;
-  font-size: 14px;
-color: yellow;
+  text-wrap: nowrap;
 }
 
 .inversion {
   font-size: medium;
-margin-left: 10px;
+  margin-left: 2px;
   color: lightgray;
   font-weight: bold;
+  text-align: left;
 }
+
+.chord-notes {
+  font-weight: bold;
+  margin-left: 2px;
+  font-size: 14px;
+  color: yellow;
+}
+
 
 .inversion span {
   font-size: 14px;
   margin-left: 10px;
-color:lime;
+  color: lime;
 }
 
 .inversion button {
   border-radius: 15px;
-  min-width: 38px;
+  min-width: 33px;
   height: 28px;
-  font-size: large;
+  font-size: medium;
   color: black;
   margin-left: 5px;
   border: 1px solid black;
@@ -41,11 +42,9 @@ color:lime;
 .inversion button:hover {
   color: white;
   background-color: teal;
-
 }
 
 .inversion button:sel {
   color: white;
   background-color: teal;
-
 }

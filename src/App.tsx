@@ -94,15 +94,7 @@ export default function App() {
         {renderTool()}
         {selectedChord && (
           <aside className="selected-chord" aria-label={`Selected chord: ${selectedChord}`}>
-            <button
-              type="button"
-              className="close-button selected-chord-close"
-              onClick={() => setSelectedChord(null)}
-              aria-label="Close chord display"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <Chord chord={selectedChord} />
+            <Chord chord={selectedChord} onClose={() => setSelectedChord(null)} />
           </aside>
         )}
       </main>

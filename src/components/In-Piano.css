@@ -3,6 +3,8 @@
 .piano-container {
   display: flex;
   justify-content: center;
+  width: 100%;
+  overflow: hidden;
 }
 
 .in-piano {
@@ -16,8 +18,10 @@
 
 @media (max-width: 600px) {
   .in-piano {
-    width: 95vw; /* This makes the piano div 95% of the viewport width */
-    height: auto; /* This allows the height to adjust accordingly */
+    width: 95vw;
+    /* This makes the piano div 95% of the viewport width */
+    height: auto;
+    /* This allows the height to adjust accordingly */
   }
 }
 
@@ -81,11 +85,23 @@
 /* In-Piano.css */
 
 .w3switch {
-  margin-left: 10px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+  box-sizing: border-box;
   font-size: 18px;
-  margin-top: 3px;
-  margin-bottom: -4px;
+  margin-left: 10px;
+  text-align: left;
+  width: fit-content;
+  max-width: calc(100% - 20px);
+}
+
+
+
+.selected-chord .piano-container {
+  justify-content: center;
+}
+
+.selected-chord .in-piano {
+  zoom: clamp(0.32, calc((100vw - 48px) / 960), 0.76);
 }
 
 

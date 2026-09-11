@@ -4,11 +4,11 @@ import InNav from './In-Nav.tsx';
 import InPiano from './In-Piano.tsx';
 import InGuitar from './In-Guitar.tsx';
 import InStave from './In-Stave.tsx';
-// import InLlama from './In-Llama.tsx';
 import Inversion from './Inversion.tsx';
 
 interface ChordProps {
   chord: string;
+  onClose: () => void;
 }
 
 type ChordType =
@@ -97,52 +97,52 @@ const chordToNotes = (root: string, type: ChordType): string[] => {
   if (rootIndex === -1) return [];
   const intervals =
     type === 'major' ? [0, 4, 7]
-    : type === 'minor' ? [0, 3, 7]
-    : type === '7' ? [0, 4, 7, 10]
-    : type === 'dim' || type === '°' ? [0, 3, 6]
-    : type === 'dim7' ? [0, 3, 6, 9]
-    : type === 'aug' || type === '+' ? [0, 4, 8]
-    : type === 'sus' ? [0, 5, 7]
-    : type === 'sus2' ? [0, 2, 7]
-    : type === 'sus4' ? [0, 5, 7]
-    : type === 'sus2sus4' ? [0, 2, 5, 7]
-    : type === '7sus4' ? [0, 5, 7, 10]
-    : type === 'add9' ? [0, 4, 7, 14]
-    : type === 'add11' ? [0, 4, 7, 17]
-    : type === '6' ? [0, 4, 7, 9]
-    : type === '69' ? [0, 4, 7, 9, 14]
-    : type === '5' ? [0, 7]
-    : type === '9' ? [0, 4, 7, 10, 14]
-    : type === '9b5' ? [0, 4, 6, 10, 14]
-    : type === '11' ? [0, 4, 7, 10, 14, 17]
-    : type === '13' ? [0, 4, 7, 10, 14, 21]
-    : type === 'maj7' || type === 'Maj7' || type === 'M7' ? [0, 4, 7, 11]
-    : type === 'maj7b5' ? [0, 4, 6, 11]
-    : type === 'maj7#5' ? [0, 4, 8, 11]
-    : type === 'maj7sus2' ? [0, 2, 7, 11]
-    : type === 'maj9' ? [0, 4, 7, 11, 14]
-    : type === 'maj11' ? [0, 4, 7, 11, 14, 17]
-    : type === 'maj13' ? [0, 4, 7, 11, 14, 21]
-    : type === 'm6' ? [0, 3, 7, 9]
-    : type === 'm69' ? [0, 3, 7, 9, 14]
-    : type === 'm7' ? [0, 3, 7, 10]
-    : type === 'm7b5' || type === 'ø' ? [0, 3, 6, 10]
-    : type === 'm9' ? [0, 3, 7, 10, 14]
-    : type === 'm11' ? [0, 3, 7, 10, 14, 17]
-    : type === 'm13' ? [0, 3, 7, 10, 14, 21]
-    : type === 'mmaj7' ? [0, 3, 7, 11]
-    : type === 'mmaj7b5' ? [0, 3, 6, 11]
-    : type === 'mmaj9' ? [0, 3, 7, 11, 14]
-    : type === 'mmaj11' ? [0, 3, 7, 11, 14, 17]
-    : type === '7b5' ? [0, 4, 6, 10]
-    : type === '7b9' ? [0, 4, 7, 10, 13]
-    : type === '7#9' ? [0, 4, 7, 10, 15]
-    : type === 'aug7' ? [0, 4, 8, 10]
-    : [0, 4, 7]; // default
+      : type === 'minor' ? [0, 3, 7]
+        : type === '7' ? [0, 4, 7, 10]
+          : type === 'dim' || type === '°' ? [0, 3, 6]
+            : type === 'dim7' ? [0, 3, 6, 9]
+              : type === 'aug' || type === '+' ? [0, 4, 8]
+                : type === 'sus' ? [0, 5, 7]
+                  : type === 'sus2' ? [0, 2, 7]
+                    : type === 'sus4' ? [0, 5, 7]
+                      : type === 'sus2sus4' ? [0, 2, 5, 7]
+                        : type === '7sus4' ? [0, 5, 7, 10]
+                          : type === 'add9' ? [0, 4, 7, 14]
+                            : type === 'add11' ? [0, 4, 7, 17]
+                              : type === '6' ? [0, 4, 7, 9]
+                                : type === '69' ? [0, 4, 7, 9, 14]
+                                  : type === '5' ? [0, 7]
+                                    : type === '9' ? [0, 4, 7, 10, 14]
+                                      : type === '9b5' ? [0, 4, 6, 10, 14]
+                                        : type === '11' ? [0, 4, 7, 10, 14, 17]
+                                          : type === '13' ? [0, 4, 7, 10, 14, 21]
+                                            : type === 'maj7' || type === 'Maj7' || type === 'M7' ? [0, 4, 7, 11]
+                                              : type === 'maj7b5' ? [0, 4, 6, 11]
+                                                : type === 'maj7#5' ? [0, 4, 8, 11]
+                                                  : type === 'maj7sus2' ? [0, 2, 7, 11]
+                                                    : type === 'maj9' ? [0, 4, 7, 11, 14]
+                                                      : type === 'maj11' ? [0, 4, 7, 11, 14, 17]
+                                                        : type === 'maj13' ? [0, 4, 7, 11, 14, 21]
+                                                          : type === 'm6' ? [0, 3, 7, 9]
+                                                            : type === 'm69' ? [0, 3, 7, 9, 14]
+                                                              : type === 'm7' ? [0, 3, 7, 10]
+                                                                : type === 'm7b5' || type === 'ø' ? [0, 3, 6, 10]
+                                                                  : type === 'm9' ? [0, 3, 7, 10, 14]
+                                                                    : type === 'm11' ? [0, 3, 7, 10, 14, 17]
+                                                                      : type === 'm13' ? [0, 3, 7, 10, 14, 21]
+                                                                        : type === 'mmaj7' ? [0, 3, 7, 11]
+                                                                          : type === 'mmaj7b5' ? [0, 3, 6, 11]
+                                                                            : type === 'mmaj9' ? [0, 3, 7, 11, 14]
+                                                                              : type === 'mmaj11' ? [0, 3, 7, 11, 14, 17]
+                                                                                : type === '7b5' ? [0, 4, 6, 10]
+                                                                                  : type === '7b9' ? [0, 4, 7, 10, 13]
+                                                                                    : type === '7#9' ? [0, 4, 7, 10, 15]
+                                                                                      : type === 'aug7' ? [0, 4, 8, 10]
+                                                                                        : [0, 4, 7]; // default
   return intervals.map(i => NOTES[(rootIndex + i) % 12]);
 };
 
-const Chord: React.FC<ChordProps> = ({ chord }) => {
+const Chord: React.FC<ChordProps> = ({ chord, onClose }) => {
   const [coreNotes, setCoreNotes] = useState<string[]>([]);
   const [invertedNotes, setInvertedNotes] = useState<string[]>([]);
   const [inversion, setInversion] = useState(0);
@@ -150,7 +150,6 @@ const Chord: React.FC<ChordProps> = ({ chord }) => {
   const [showStave, setShowStave] = useState(false);
   const [showPiano, setShowPiano] = useState(false);
   const [showGuitar, setShowGuitar] = useState(true);
-  const [showLlama, setShowLlama] = useState(false);
 
   useEffect(() => {
     // 🔥 handle slash chords (e.g. Dm/F)
@@ -188,7 +187,7 @@ const Chord: React.FC<ChordProps> = ({ chord }) => {
     setInversion(0);
     setInvertedNotes(finalNotes);
   }, [chord]);
-  
+
 
   useEffect(() => {
     if (coreNotes.length === 0) return;
@@ -200,69 +199,53 @@ const Chord: React.FC<ChordProps> = ({ chord }) => {
         ? `${base}${octave}`
         : `${base}${octave + 1}`;
     });
-    
+
     setInvertedNotes(octaveAdjusted);
   }, [inversion, coreNotes]);
-  
+
 
   return (
     <div className="chord-container">
-      
       <InNav
-        onToggleStave={() => { setShowStave(true); setShowPiano(false); setShowGuitar(false); setShowLlama(false); }}
-        onTogglePiano={() => { setShowPiano(true); setShowStave(false); setShowGuitar(false); setShowLlama(false); }}
-        onToggleGuitar={() => { setShowGuitar(true); setShowStave(false); setShowPiano(false); setShowLlama(false); }}
+        onToggleStave={() => { setShowStave(true); setShowPiano(false); setShowGuitar(false); }}
+        onTogglePiano={() => { setShowPiano(true); setShowStave(false); setShowGuitar(false); }}
+        onToggleGuitar={() => { setShowGuitar(true); setShowStave(false); setShowPiano(false); }}
+        onClose={onClose}
         showStave={showStave}
         showPiano={showPiano}
         showGuitar={showGuitar}
-        
       />
 
-      <div className="chord-info">
-        {chord}
-        {coreNotes.length > 0 && (
-          <>
+      <div className="chord-details">
+        <div className="chord-info">
+          {chord}
+          {coreNotes.length > 0 && (
             <span className="chord-notes"> ({coreNotes.join(' ')})</span>
-            
-          </>
-        )}
-        {showPiano && showGuitar && showStave && showLlama && (
-          <>
-            <InGuitar guitarChordName={chord} />
-            
-          </>
+          )}
+        </div>
+
+        {(showPiano || showStave) && (
+          <Inversion
+            coreNotes={coreNotes}
+            invertedNotes={invertedNotes}
+            inversion={inversion}
+            setInversion={setInversion}
+          />
         )}
       </div>
 
-      {showPiano && !showGuitar && !showStave && !showLlama && (<>
-        <Inversion
-              coreNotes={coreNotes}
-              invertedNotes={invertedNotes}
-              inversion={inversion}
-              setInversion={setInversion}
-        />
+      {showPiano && !showGuitar && !showStave && (<>
         <InPiano activeNotes={invertedNotes} />
-        </>   
+      </>
       )}
 
-      {showGuitar && !showPiano && !showStave && !showLlama && 
-      <InGuitar guitarChordName={chord} />}
+      {showGuitar && !showPiano && !showStave &&
+        <InGuitar guitarChordName={chord} />}
 
-      {showStave && !showPiano && !showGuitar && !showLlama && (<>
-      <Inversion
-              coreNotes={coreNotes}
-              invertedNotes={invertedNotes}
-              inversion={inversion}
-              setInversion={setInversion}
-        />
+      {showStave && !showPiano && !showGuitar && (<>
         <InStave activeNotes={invertedNotes} />
-      </> 
-      )}  
-      {/* {showLlama && !showPiano && !showGuitar && !showStave && 
-      <InLlama 
-        chordName={chord}
-        notes={coreNotes}
-      />} */}
+      </>
+      )}
 
     </div>
   );
