@@ -21,6 +21,16 @@ if (!AudioContextClass) {
 }
 const audioContext = new AudioContextClass();
 const bufferMap: { [note: string]: AudioBuffer } = {};
+const audioAssetNames: Record<string, string> = {
+  "C#": "Db",
+  "D#": "Eb",
+  "F#": "Gb",
+  "G#": "Ab",
+  "A#": "Bb",
+};
+
+const getAudioAssetName = (note: string) =>
+  `${audioAssetNames[note.slice(0, -1)] || note.slice(0, -1)}${note.slice(-1)}`;
 
 /**
  * @component InPiano
@@ -33,6 +43,7 @@ const InPiano: React.FC<InPianoProps> = ({ activeNotes = [] }) => {
   const [soundEnabled, setSoundEnabled] = useState(false);
   // Ref to track whether audio is loaded to avoid playing notes prematurely.
   const audioLoadedRef = useRef(false);
+  const [audioReady, setAudioReady] = useState(false);
 
   /**
    * @constant notes
@@ -85,7 +96,8 @@ const InPiano: React.FC<InPianoProps> = ({ activeNotes = [] }) => {
       await Promise.allSettled(notes.map(async (note) => {
         if (bufferMap[note]) return;
 
-        const response = await fetch(`/media/${encodeURIComponent(note)}.mp3`);
+        const assetName = getAudioAssetName(note);
+        const response = await fetch(`/media/${encodeURIComponent(assetName)}.mp3`);
         if (!response.ok) {
           throw new Error(`Audio request failed with ${response.status}`);
         }
@@ -96,6 +108,7 @@ const InPiano: React.FC<InPianoProps> = ({ activeNotes = [] }) => {
 
       if (!cancelled) {
         audioLoadedRef.current = true;
+        setAudioReady(true);
       }
     };
 
@@ -113,10 +126,10 @@ const InPiano: React.FC<InPianoProps> = ({ activeNotes = [] }) => {
    */
   useEffect(() => {
     // Ensure the audio is loaded before attempting to play notes.
-    if (audioLoadedRef.current) {
+    if (audioLoadedRef.current && audioReady) {
       activeNotes.forEach((note) => playNoteAudio(note));
     }
-  }, [activeNotes, playNoteAudio, notes]); // `notes` is added to the dependency array here.
+  }, [activeNotes, audioReady, playNoteAudio]);
 
   return (
     <>
