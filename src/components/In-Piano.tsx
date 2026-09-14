@@ -12,7 +12,14 @@ interface InPianoProps {
 
 // Global AudioContext and buffer map for performance.
 // These are outside the component to prevent re-creation on every render.
-const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+const webkitWindow = window as Window & {
+  webkitAudioContext?: typeof AudioContext;
+};
+const AudioContextClass = window.AudioContext || webkitWindow.webkitAudioContext;
+if (!AudioContextClass) {
+  throw new Error("Web Audio API is not supported in this browser.");
+}
+const audioContext = new AudioContextClass();
 const bufferMap: { [note: string]: AudioBuffer } = {};
 
 /**
@@ -49,12 +56,21 @@ const InPiano: React.FC<InPianoProps> = ({ activeNotes = [] }) => {
     // If sound is disabled or the audio hasn't been loaded, do nothing.
     if (!soundEnabled || !audioLoadedRef.current) return;
     const buffer = bufferMap[note];
-    if (buffer) {
+    if (!buffer) return;
+
+    const play = () => {
       const source = audioContext.createBufferSource();
       source.buffer = buffer;
       source.connect(audioContext.destination);
       source.start(0);
+    };
+
+    if (audioContext.state === "suspended") {
+      void audioContext.resume().then(play);
+      return;
     }
+
+    play();
   }, [soundEnabled]); // Only re-create this function if `soundEnabled` changes.
 
   /**
@@ -63,27 +79,31 @@ const InPiano: React.FC<InPianoProps> = ({ activeNotes = [] }) => {
    * This effect runs only once because its dependency array contains a constant memoized array.
    */
   useEffect(() => {
-    // Keep track of the number of audio files to load.
-    let notesToLoad = notes.length;
+    let cancelled = false;
 
-    notes.forEach((note) => {
-      if (!bufferMap[note]) {
-        fetch(`/media/${encodeURIComponent(note)}.mp3`)
-          .then((response) => response.arrayBuffer())
-          .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
-          .then((audioBuffer) => {
-            bufferMap[note] = audioBuffer;
-            // Decrement the counter and set audioLoadedRef when all files are loaded.
-            notesToLoad--;
-            if (notesToLoad === 0) {
-              audioLoadedRef.current = true;
-            }
-          })
-          .catch((err) => {
-            console.warn(`Failed to load or decode audio for ${note}:`, err);
-          });
+    const loadAudio = async () => {
+      await Promise.allSettled(notes.map(async (note) => {
+        if (bufferMap[note]) return;
+
+        const response = await fetch(`/media/${encodeURIComponent(note)}.mp3`);
+        if (!response.ok) {
+          throw new Error(`Audio request failed with ${response.status}`);
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+        bufferMap[note] = await audioContext.decodeAudioData(arrayBuffer);
+      }));
+
+      if (!cancelled) {
+        audioLoadedRef.current = true;
       }
-    });
+    };
+
+    void loadAudio();
+
+    return () => {
+      cancelled = true;
+    };
   }, [notes]); // `notes` is added to the dependency array.
 
   /**
@@ -106,7 +126,13 @@ const InPiano: React.FC<InPianoProps> = ({ activeNotes = [] }) => {
           <input
             type="checkbox"
             checked={soundEnabled}
-            onChange={() => setSoundEnabled(!soundEnabled)}
+            onChange={() => {
+              const nextSoundEnabled = !soundEnabled;
+              setSoundEnabled(nextSoundEnabled);
+              if (nextSoundEnabled && audioContext.state === "suspended") {
+                void audioContext.resume();
+              }
+            }}
           />
           <span className="slider" />
         </label>
