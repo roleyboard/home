@@ -1,5 +1,3 @@
-/* Piano.css */
-
 .piano-container {
   display: flex;
   justify-content: center;
@@ -18,10 +16,7 @@
 
 @media (max-width: 600px) {
   .in-piano {
-    width: 95vw;
-    /* This makes the piano div 95% of the viewport width */
-    height: auto;
-    /* This allows the height to adjust accordingly */
+    width: 90vw;
   }
 }
 
@@ -82,7 +77,6 @@
   font-weight: bold;
 }
 
-/* In-Piano.css */
 
 .w3switch {
 

@@ -1,10 +1,17 @@
+.guitar-fretboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: -45px;
+  z-index: -100;
+}
+
 .chord-shape-block {
-  float: left;
-  width: 110px;
+  width: 112px;
   background-color: white;
   border-radius: 12px;
-  margin: 5px;
   padding: 0px;
+
 }
 
 .chord-shape-block div {
@@ -21,21 +28,22 @@
 
 .chord-overlay {
   text-align: center;
+
 }
 
-.chord-overlay span{
+.chord-overlay span {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 12px;
   color: seagreen;
   word-spacing: -1px;
-  width:100%;
+  width: 100%;
   font-weight: bold;
 }
 
 .overlay-cell {
-padding: 0 3px;
-position: relative;
-bottom:5px
+  padding: 0 3px;
+  position: relative;
+  bottom: 5px
 }
 
 .fret-pos {
@@ -46,19 +54,19 @@ bottom:5px
   color: crimson;
   text-align: center;
   position: relative;
-  top: 8px
+  top: 8px;
 }
 
 .variant-navigation {
   position: absolute;
   right: 15px;
-  bottom: 15px;
+  bottom: 25px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   padding: 0;
   margin: 0;
-
   height: 70px;
   width: 75px;
+
 }
 
 .variant-navigation button {
