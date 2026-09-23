@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CircleDot, FileMusic, Guitar, Music2, Palette, Piano } from 'lucide-react'
+import { CircleDot, FileMusic, Guitar, LayoutGrid, List, Music2, Palette, Piano, Shuffle } from 'lucide-react'
 import './App.css'
 import Tabs from './components/Tabs'
 import Chart from './components/Chart'
@@ -18,6 +18,7 @@ export default function App() {
   const [selectedSong, setSelectedSong] = useState<Song | null>(null)
   const [selectedChord, setSelectedChord] = useState<string | null>(null)
   const [queue, setQueue] = useState<Song[]>(songs)
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
 
   const shuffleUpcoming = () => {
     const currentIndex = selectedSong
@@ -28,7 +29,7 @@ export default function App() {
 
     for (let index = upcoming.length - 1; index > 0; index -= 1) {
       const randomIndex = Math.floor(Math.random() * (index + 1))
-      ;[upcoming[index], upcoming[randomIndex]] = [upcoming[randomIndex], upcoming[index]]
+        ;[upcoming[index], upcoming[randomIndex]] = [upcoming[randomIndex], upcoming[index]]
     }
 
     setQueue([...played, ...upcoming])
@@ -58,20 +59,44 @@ export default function App() {
 
     return (
 
-    <section className="music-container" aria-labelledby="music-heading">
-      <div className="music-heading">
-        <div>
-          <p className="music-eyebrow">LISTEN</p>
-          <h2 id="music-heading">Songs</h2>
-        </div>
-<button type="button" className="shuffle-button" onClick={shuffleUpcoming}>
-            <span aria-hidden="true">&#8644;</span> Shuffle upcoming
+      <section className="music-container" aria-labelledby="music-heading">
+        <div className="music-heading">
+          <div>
+            <p className="music-eyebrow">LISTEN</p>
+            <h2 id="music-heading">Songs</h2>
+          </div>
+
+          <button
+            type="button"
+            className={`list-view${viewMode === 'list' ? ' is-active' : ''}`}
+            onClick={() => setViewMode('list')}
+            aria-label="List view"
+            aria-pressed={viewMode === 'list'}
+            title="List view"
+          >
+            <List aria-hidden="true" />
           </button>
-      </div>
+
+          <button
+            type="button"
+            className={`icon-view${viewMode === 'grid' ? ' is-active' : ''}`}
+            onClick={() => setViewMode('grid')}
+            aria-label="Icon view"
+            aria-pressed={viewMode === 'grid'}
+            title="Icon view"
+          >
+            <LayoutGrid aria-hidden="true" />
+          </button>
+
+          <button type="button" className="shuffle-button" onClick={shuffleUpcoming} aria-label="Shuffle upcoming songs" title="Shuffle upcoming songs">
+            <Shuffle aria-hidden="true" />
+          </button>
+
+        </div>
 
 
 
-        <div className="song-list">
+        <div className={`song-list${viewMode === 'grid' ? ' icon-song-grid' : ''}`}>
           {queue.map((song, index) => (
             <SongCard
               key={song.id}

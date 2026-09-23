@@ -66,7 +66,7 @@ export default function SongPlayer({ song, onEnded, onClose }: SongPlayerProps) 
         </button>
 
         <button type="button" className="now-playing-copy" onClick={() => setShowDetails(true)}>
-          
+
           <strong>{song.title}</strong>
           <span>Tap to view Lyrics</span>
         </button>
@@ -77,10 +77,10 @@ export default function SongPlayer({ song, onEnded, onClose }: SongPlayerProps) 
           onClick={togglePlayback}
           aria-label={isPlaying ? 'Pause' : 'Play'}
         >
-          <span aria-hidden="true">{isPlaying ? 'Ⅱ' : '▶'}</span>
+          <span aria-hidden="true">{isPlaying ? 'I I' : '▶'}</span>
         </button>
 
-        <button type="button" className="close-button now-playing-close" onClick={onClose} aria-label="Close player">
+        <button type="button" className="close-button" onClick={onClose} aria-label="Close player">
           <span aria-hidden="true">&times;</span>
         </button>
 
@@ -106,8 +106,7 @@ export default function SongPlayer({ song, onEnded, onClose }: SongPlayerProps) 
             onMouseDown={(event) => event.stopPropagation()}
           >
             <button type="button" className="details-close" onClick={() => setShowDetails(false)}>
-              <span aria-hidden="true">&times;</span>
-              <span className="sr-only">Close artwork and lyrics</span>
+              <span className="close-button">&times;</span>
             </button>
             <img className="details-cover" src={song.cover} alt={`${song.title} cover`} />
             <div className="details-player" aria-label={`Playback controls for ${song.title}`}>
@@ -117,7 +116,7 @@ export default function SongPlayer({ song, onEnded, onClose }: SongPlayerProps) 
                 onClick={togglePlayback}
                 aria-label={isPlaying ? 'Pause' : 'Play'}
               >
-                <span aria-hidden="true">{isPlaying ? 'Ⅱ' : '▶'}</span>
+                <span aria-hidden="true">{isPlaying ? 'I I' : '▶'}</span>
               </button>
               <div>
                 <span className="details-player-label">Now playing</span>

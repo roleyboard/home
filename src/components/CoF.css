@@ -177,7 +177,7 @@ circle {
   border-color: black;
   color: blue;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-      background-color: lightgrey;
+  background-color: lightgrey;
 }
 
 .three-columns-grid button:hover,
@@ -188,13 +188,9 @@ circle {
 }
 
 .keySig {
-  margin-top: 2px;
-
-  color: black;
+  color: grey;
   text-align: left;
-  padding-left: 10px;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 18px;
+  font-size: 16px;
   padding-top: 5px;
   overflow: hidden;
 }
@@ -234,7 +230,7 @@ circle {
   padding: 4px 10px;
   font-size: 18px;
   margin: 0 10px 2px 15px;
-    background-color: lightgrey;
+  background-color: lightgrey;
   border-radius: 12px;
   border-color: black;
   color: blue;

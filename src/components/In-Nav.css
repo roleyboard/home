@@ -14,6 +14,7 @@
   height: 45px;
   font-size: x-large;
   border: 1px solid black;
+  background-color: lightgrey;
 }
 
 .insight-buttons button:hover {
@@ -43,4 +44,5 @@
   grid-column: 2;
   grid-row: 1;
   margin: 0;
+
 }

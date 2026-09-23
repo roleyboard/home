@@ -72,8 +72,8 @@
   border-color: grey;
   color: blue;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    height: 35px;
-    background-color: lightgrey
+  height: 35px;
+  background-color: lightgrey
 }
 
 .chord-type:hover {
@@ -88,7 +88,7 @@
   border-color: black;
   color: blue;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-      background-color: lightgrey;
+  background-color: lightgrey;
 }
 
 
@@ -337,10 +337,8 @@
 
 .modeTitle {
   margin-top: -22px;
-  color: blue;
-  text-align: center;
-
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-weight: bold;
+  color: grey;
+  margin-left: 30px;
+  text-align: left;
+  font-size: 16px;
 }
-

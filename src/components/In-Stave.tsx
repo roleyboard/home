@@ -19,11 +19,16 @@ const InStave: React.FC<InStaveProps> = ({ activeNotes, keySignature }) => {
     const context = renderer.getContext();
 
     const stave = new Stave(5, 0, 210); // 5-leftmargin, 0-Top, Container WIDTH
+
     if (keySignature) {
-      stave.addClef('treble').addKeySignature(keySignature);
+      stave
+        .addClef('treble')
+        .addKeySignature(keySignature)
+
     } else {
       stave.addClef('treble');
     }
+
     stave.setContext(context).draw();
 
     if (activeNotes.length > 0) {

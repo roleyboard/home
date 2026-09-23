@@ -21,7 +21,7 @@ const InNav: React.FC<InNavProps> = ({
   showStave,
 }) => {
   return (
-   
+
     <div className="insight-buttons">
 
       <button
@@ -47,7 +47,7 @@ const InNav: React.FC<InNavProps> = ({
 
       <button
         type="button"
-        className="close-button selected-chord-close"
+        className="close-button "
         onClick={onClose}
         aria-label="Close chord display"
       >
