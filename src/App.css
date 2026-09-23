@@ -67,6 +67,8 @@
   border-bottom: 1px solid var(--border);
 }
 
+
+
 .song-select {
   display: grid;
   grid-template-columns: 32px 76px minmax(0, 1fr) 42px;
@@ -81,6 +83,15 @@
   text-align: left;
   cursor: pointer;
   transition: background 160ms ease;
+}
+
+@media (max-width: 720px) {
+  .song-select {
+    grid-template-columns: 22px 54px minmax(0, 1fr) 30px;
+    gap: 11px;
+    padding: 10px 6px;
+  }
+
 }
 
 .song-select:hover,
