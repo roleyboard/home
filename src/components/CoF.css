@@ -8,9 +8,9 @@
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: bold;
   position: relative;
-  margin-bottom: -50px;
+  margin-bottom: -30px;
   max-width: 500px;
-  top: -50px;
+  top: -15px;
 }
 
 .major-ring,
@@ -177,9 +177,7 @@ circle {
   font-size: 18px;
   margin-bottom: 2px;
   border-radius: 12px;
-  border-color: black;
   color: blue;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   background-color: lightgrey;
 }
 

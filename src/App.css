@@ -1,7 +1,7 @@
 .music-container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 24px 18px 90px;
+  padding: 10px;
 }
 
 .music-eyebrow {
@@ -19,12 +19,7 @@
   gap: 12px;
 }
 
-.music-heading-copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 0;
-}
+
 
 .music-heading h2 {
   margin-left: 10px;
@@ -565,10 +560,9 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   min-height: 64px;
-  padding: 4px max(8px, env(safe-area-inset-right)) max(4px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
-  border-top: 1px solid var(--border);
+  border-top: 2px solid var(--border);
   background: var(--bg);
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, .08);
+
 }
 
 .fixed-tab {
@@ -578,7 +572,6 @@
   justify-content: center;
   gap: 2px;
   min-width: 0;
-  padding: 6px 4px;
   border: 0;
   color: var(--text);
   background: var(--bg);
@@ -586,6 +579,7 @@
   cursor: pointer;
   text-decoration: none;
   transition: color 160ms ease, background 160ms ease;
+  padding-bottom: 5px;
 }
 
 .fixed-tab-icon {
@@ -733,6 +727,7 @@
   font: 600 13px var(--sans);
   cursor: pointer;
   transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+
 }
 
 .learn-tab:hover {
