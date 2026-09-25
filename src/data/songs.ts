@@ -20,6 +20,7 @@ export const songs: Song[] = [
     title: "More Than Zero",
     cover: "/covers/more-than-zero.png",
     audio: "/audio/more-than-zero.mp3",
+    lyrics: "/lyrics/more-than-zero.md",
   },
 
   {
@@ -27,6 +28,7 @@ export const songs: Song[] = [
     title: "Cinderella in the Rain",
     cover: "/covers/cinderella-in-the-rain.png",
     audio: "/audio/cinderella-in-the-rain.mp3",
+    lyrics: "/lyrics/cinderella-in-the-rain.md",
   },
 
   {
@@ -42,6 +44,7 @@ export const songs: Song[] = [
     title: "To Good Health!",
     cover: "/covers/to-good-health.png",
     audio: "/audio/to-good-health.mp3",
+    lyrics: "/lyrics/good-health.md",
   },
 
   {
@@ -83,7 +86,7 @@ export const songs: Song[] = [
   {
     id: 11,
     title: "Beautiful Land",
-    cover: "/covers/beautiful-land.jpeg",
+    cover: "/covers/Beautiful-Land.jpeg",
     audio: "/audio/beautiful-land.mp3",
   },
 ];

@@ -253,18 +253,13 @@
 }
 
 .close-button {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  place-items: center;
-  padding: 0;
+  width: 46px;
+  height: 46px;
   border: 1px solid grey;
   border-radius: 50% !important;
   color: black;
   background: white;
-  font: inherit;
-  font-size: 24px;
-  line-height: 1;
+  font-size: 32px;
   cursor: pointer;
 }
 
