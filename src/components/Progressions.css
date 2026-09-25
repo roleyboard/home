@@ -1,6 +1,6 @@
 .progressions {
     margin: 5px;
-font-family: 'Times New Roman', Times, serif;
+    font-family: 'Times New Roman', Times, serif;
     text-align: left;
     font-weight: bold;
 }
@@ -18,7 +18,8 @@ font-family: 'Times New Roman', Times, serif;
     padding: 0 10px;
     width: 80px;
     color: var(--bg);
-        background-color: var(--text);
+    background-color: var(--text);
+    border: 1px solid #222;
 }
 
 .progression-list {
@@ -32,6 +33,7 @@ font-family: 'Times New Roman', Times, serif;
     grid-template-columns: 1fr 1fr;
     align-items: center;
     padding: 6px 10px;
+    margin: -5px -13px;
     border: 1px solid var(--text-color);
     border-radius: 12px;
     background-color: var(--background-color);
@@ -45,7 +47,7 @@ font-family: 'Times New Roman', Times, serif;
 }
 
 .progression-row.selected button {
-    border: 1px solid var(--background-color);
+    border: 1px solid #222;
 
 }
 
@@ -53,8 +55,7 @@ font-family: 'Times New Roman', Times, serif;
 .prog-roman {
     font-weight: bold;
     font-family: 'Times New Roman', Times, serif;
-    display: flex;
-
+    align-content: baseline;
     gap: 4px;
 }
 
@@ -69,15 +70,13 @@ font-family: 'Times New Roman', Times, serif;
 
 .prog-chord-button {
     color: black;
-    padding: 2px 8px;
+    padding: 2px 6px;
     background-color: lightgrey;
     min-width: 25px;
     border-radius: 12px;
     font-size: 18px;
     color: blue;
-    border: 1px solid var(--text-color);
-
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;    
+    border: 1px solid #222;
 }
 
 .prog-chord-button:hover {
@@ -96,6 +95,6 @@ font-family: 'Times New Roman', Times, serif;
 }
 
 .progression-info {
- color: black;
+    color: black;
     font-style: italic;
 }
