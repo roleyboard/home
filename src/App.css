@@ -570,7 +570,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
   min-width: 0;
   border: 0;
   color: var(--text);
@@ -579,7 +578,7 @@
   cursor: pointer;
   text-decoration: none;
   transition: color 160ms ease, background 160ms ease;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 }
 
 .fixed-tab-icon {
