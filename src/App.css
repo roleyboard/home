@@ -572,6 +572,7 @@
   justify-content: center;
   min-width: 0;
   border: 0;
+  gap: 2px;
   color: var(--text);
   background: var(--bg);
   font: 600 11px/1.2 var(--sans);
@@ -755,5 +756,9 @@
     flex: 1 1 calc(50% - 8px);
     justify-content: center;
     min-width: 0;
+  }
+
+  .site-footer p {
+    font-size: 12px;
   }
 }
