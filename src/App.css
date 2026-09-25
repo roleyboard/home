@@ -579,7 +579,7 @@
   cursor: pointer;
   text-decoration: none;
   transition: color 160ms ease, background 160ms ease;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
 
 .fixed-tab-icon {
