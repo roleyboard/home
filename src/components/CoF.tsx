@@ -106,7 +106,7 @@ export default function CoF({ onChordSelect }: CoFProps) {
     return 'grey';
   };
 
-  const handleClick = (chord: string) => {
+  const handleCircleSelection = (chord: string) => {
     const normalized = chord.toLowerCase();
 
     const clickedIndex = keys.findIndex(
@@ -115,14 +115,10 @@ export default function CoF({ onChordSelect }: CoFProps) {
         key.minor.toLowerCase() === normalized
     );
 
-
-
-
     if (clickedIndex === -1) {
       console.warn(`Chord not found: ${chord}`);
       return;
     }
-
 
     const isMinorClick = keys[clickedIndex].minor.toLowerCase() === normalized;
     const targetIndex = isMinorClick
@@ -138,26 +134,17 @@ export default function CoF({ onChordSelect }: CoFProps) {
         key.minor.toLowerCase() === selectedChordName.toLowerCase()
     );
 
-
-
     let deltaMajor = targetIndex - currentIndex;
     if (Math.abs(deltaMajor) > totalKeys / 2) {
       deltaMajor = deltaMajor > 0 ? deltaMajor - totalKeys : deltaMajor + totalKeys;
     }
 
-
     const degreesMajor = deltaMajor * anglePerStep;
-
-
-    let deltaMinor = -deltaMajor;
-    const degreesMinor = deltaMinor * anglePerStep;
-
+    const degreesMinor = (-deltaMajor) * anglePerStep;
 
     setSelectedChordName(chord);
     setSpinDeg((prev) => (prev + degreesMajor) % 360);
     setMinorSpinDeg((prev) => (prev + degreesMinor) % 360);
-    onChordSelect(chord);
-
   };
 
   return (
@@ -170,6 +157,116 @@ export default function CoF({ onChordSelect }: CoFProps) {
 
       </div>
 
+      <div className="CoF-svg-container">
+        <svg viewBox="0 0 760 760" className="circle-svg">
+          <g className="major-ring" style={{ transform: `rotate(${-spinDeg}deg)` }}>
+            {keys.map((key, index) => {
+              const angle = (index / keys.length) * 2 * Math.PI - Math.PI / 2;
+              const x = 380 + 300 * Math.cos(angle);
+              const y = 380 + 300 * Math.sin(angle);
+              const angleDeg = (angle * 180) / Math.PI + 90;
+              return (
+                <g
+                  key={`major-${index}`}
+                  onClick={() => handleCircleSelection(key.major)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r={45}
+                    fill={getFillColor(key.major)}
+                    stroke="var(--text-color)"
+                  />
+                  <text
+                    x={x}
+                    y={y}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize="45"
+                    fill="white"
+                    transform={`rotate(${angleDeg} ${x} ${y})`}
+                  >
+                    {key.major}
+                  </text>
+                </g>
+              );
+            })}
+          </g>
+          <g className="minor-ring" style={{ transform: `rotate(${minorSpinDeg}deg)` }}>
+            {keys.map((key, index) => {
+              const angle = (index / keys.length) * 2 * Math.PI - Math.PI / 2;
+              const x = 380 + 200 * Math.cos(angle);
+              const y = 380 + 200 * Math.sin(angle);
+              const angleDeg = (angle * 180) / Math.PI + 90;
+              return (
+                <g
+                  key={`minor-${index}`}
+                  onClick={() => handleCircleSelection(key.minor)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r={45}
+                    fill={getFillColor(key.minor)}
+                    stroke='var(--text-color)'
+                  />
+                  <text
+                    x={x}
+                    y={y}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize="35"
+                    fill="white"
+                    transform={`rotate(${angleDeg} ${x} ${y})`}
+                  >
+                    {key.minor}
+                  </text>
+                </g>
+              );
+            })}
+          </g>
+          {(() => {
+
+            const current = keys.find(
+              (key) => key.major === selectedChordName || key.minor === selectedChordName
+            );
+            const dimMap: Record<string, string> = {
+              C: 'B°', G: 'F#°', D: 'C#°', A: 'G#°', E: 'D#°', B: 'A#°',
+              'F#': 'F°', Db: 'C°', Ab: 'G°', Eb: 'D°', Bb: 'A°', F: 'E°',
+            };
+            const resolved = current ? (dimMap[current.major] || '') : '';
+            return (
+              <g
+                onClick={() => {
+                  if (resolved) handleCircleSelection(resolved.replace('°', 'dim'));
+                }}
+                style={{ cursor: 'pointer' }}
+                className="diminished-display"
+              >
+                <circle
+                  cx="380"
+                  cy="380"
+                  r="45"
+                  fill={getFillColor(resolved.replace('°', 'dim'))}
+                  stroke="var(--text-color)"
+                />
+                <text
+                  x="380"
+                  y="380"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize="45"
+                  fill="white"
+                >
+                  {resolved}
+                </text>
+              </g>
+            );
+          })()}
+        </svg>
+      </div>
 
       {(() => {
         const isMinorKey = selectedChordName.endsWith('m');
@@ -298,119 +395,6 @@ export default function CoF({ onChordSelect }: CoFProps) {
           </div>
         );
       })()}
-
-      <div className="pane1">
-        <svg viewBox="0 0 760 760" className="circle-svg">
-          <g className="major-ring" style={{ transform: `rotate(${-spinDeg}deg)` }}>
-            {keys.map((key, index) => {
-              const angle = (index / keys.length) * 2 * Math.PI - Math.PI / 2;
-              const x = 380 + 300 * Math.cos(angle);
-              const y = 380 + 300 * Math.sin(angle);
-              const angleDeg = (angle * 180) / Math.PI + 90;
-              return (
-                <g
-                  key={`major-${index}`}
-                  onClick={() => handleClick(key.major)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r={45}
-                    fill={getFillColor(key.major)}
-                    stroke="var(--text-color)"
-                  />
-                  <text
-                    x={x}
-                    y={y}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fontSize="45"
-                    fill="white"
-                    transform={`rotate(${angleDeg} ${x} ${y})`}
-                  >
-                    {key.major}
-                  </text>
-                </g>
-              );
-            })}
-          </g>
-          <g className="minor-ring" style={{ transform: `rotate(${minorSpinDeg}deg)` }}>
-            {keys.map((key, index) => {
-              const angle = (index / keys.length) * 2 * Math.PI - Math.PI / 2;
-              const x = 380 + 200 * Math.cos(angle);
-              const y = 380 + 200 * Math.sin(angle);
-              const angleDeg = (angle * 180) / Math.PI + 90;
-              return (
-                <g
-                  key={`minor-${index}`}
-                  onClick={() => handleClick(key.minor)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r={45}
-                    fill={getFillColor(key.minor)}
-                    stroke='var(--text-color)'
-                  />
-                  <text
-                    x={x}
-                    y={y}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fontSize="35"
-                    fill="white"
-                    transform={`rotate(${angleDeg} ${x} ${y})`}
-                  >
-                    {key.minor}
-                  </text>
-                </g>
-              );
-            })}
-          </g>
-          {(() => {
-
-            const current = keys.find(
-              (key) => key.major === selectedChordName || key.minor === selectedChordName
-            );
-            const dimMap: Record<string, string> = {
-              C: 'B°', G: 'F#°', D: 'C#°', A: 'G#°', E: 'D#°', B: 'A#°',
-              'F#': 'F°', Db: 'C°', Ab: 'G°', Eb: 'D°', Bb: 'A°', F: 'E°',
-            };
-            const resolved = current ? (dimMap[current.major] || '') : '';
-            return (
-              <g
-                onClick={() => {
-                  if (resolved) onChordSelect(resolved.replace('°', 'dim'));
-                }}
-                style={{ cursor: 'pointer' }}
-                className="diminished-display"
-              >
-                <circle
-                  cx="380"
-                  cy="380"
-                  r="45"
-                  fill={getFillColor(resolved.replace('°', 'dim'))}
-                  stroke="var(--text-color)"
-                />
-                <text
-                  x="380"
-                  y="380"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fontSize="45"
-                  fill="white"
-                >
-                  {resolved}
-                </text>
-              </g>
-            );
-          })()}
-        </svg>
-      </div>
-
-
 
       <div className="substitution">
         <fieldset>
