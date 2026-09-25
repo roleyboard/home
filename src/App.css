@@ -19,8 +19,6 @@
   gap: 12px;
 }
 
-
-
 .music-heading h2 {
   margin-left: 10px;
   letter-spacing: .14em;
@@ -253,14 +251,25 @@
 }
 
 .close-button {
-  width: 46px;
-  height: 46px;
-  border: 1px solid grey;
-  border-radius: 50% !important;
-  color: black;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
   background: white;
-  font-size: 32px;
+  color: black;
+  font-size: 2rem;
+  line-height: 1;
   cursor: pointer;
+}
+
+.close-button span {
+  display: block;
+  line-height: 1;
+  transform: translateY(-1px);
+  /* optional tweak if it feels slightly low */
 }
 
 .close-button:hover,
@@ -503,7 +512,7 @@
   justify-content: space-between;
   gap: 48px;
   padding: 40px 32px 120px;
-  border-top: 1px solid var(--border);
+
   text-align: left;
 }
 
