@@ -165,7 +165,6 @@ export default function CoF({ onChordSelect }: CoFProps) {
     <section className="music-container" aria-labelledby="music-heading">
       <div className="music-heading">
         <div>
-          <p className="music-eyebrow">LEARN</p>
           <h2 id="music-heading">Circle of Fifths</h2>
         </div>
 
@@ -460,7 +459,7 @@ export default function CoF({ onChordSelect }: CoFProps) {
                   <button
                     onClick={() => {
                       onChordSelect(tritoneSub);
-                      
+
                     }}
                   >
                     {tritoneSub}
@@ -469,7 +468,7 @@ export default function CoF({ onChordSelect }: CoFProps) {
                   <button
                     onClick={() => {
                       onChordSelect(resolution);
-                       
+
                     }}
                   >
                     {resolution}
@@ -544,7 +543,7 @@ export default function CoF({ onChordSelect }: CoFProps) {
                   <button
                     onClick={() => {
                       onChordSelect(entry.chord);
-                      
+
                     }}
                   >
                     {entry.chord}
@@ -553,7 +552,7 @@ export default function CoF({ onChordSelect }: CoFProps) {
                   <button
                     onClick={() => {
                       onChordSelect(entry.target);
-                      
+
                     }}
                   >
                     {entry.target}

@@ -48,7 +48,6 @@ const Progressions: React.FC<ProgressionsProps> = ({ onChordSelect }) => {
     <section className="music-container" aria-labelledby="music-heading">
       <div className="music-heading">
         <div>
-          <p className="music-eyebrow">CREATE</p>
           <h2 id="music-heading">Chord Progressions</h2>
         </div>
 

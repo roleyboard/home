@@ -76,7 +76,6 @@ const Chart: React.FC<ChartProps> = ({ onChordSelect }) => {
     <section className="music-container" aria-labelledby="music-heading">
       <div className="music-heading">
         <div>
-          <p className="music-eyebrow">LEARN</p>
           <h2 id="music-heading">Chord Chart</h2>
         </div>
 

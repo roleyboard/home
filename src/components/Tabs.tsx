@@ -33,7 +33,7 @@ export default function Tabs({ onChordSelect }: TabsProps) {
     <section className="music-container" aria-labelledby="music-heading">
       <div className="music-heading">
         <div>
-          <p className="music-eyebrow">LEARN</p>
+          <p className="music-eyebrow">PLAY</p>
           <h2 id="music-heading">Tabs</h2>
         </div>
         <p className="tabs-count">{tabFiles.length} files</p>

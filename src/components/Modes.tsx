@@ -309,7 +309,7 @@ const Modes: React.FC<ModesProps> = ({ onChordSelect }) => {
 
   const handleModeSelect = (mode: string) => {
     setSelectedMode(mode);
-    
+
     onChordSelect(rootNote); // Refresh chords with the new mode
     // chords will update via useMemo below
   };
@@ -331,10 +331,10 @@ const Modes: React.FC<ModesProps> = ({ onChordSelect }) => {
   return (
 
 
-        <section className="music-container" aria-labelledby="music-heading">
+    <section className="music-container" aria-labelledby="music-heading">
       <div className="music-heading">
         <div>
-          <p className="music-eyebrow">LEARN</p>
+
           <h2 id="music-heading">Modes</h2>
         </div>
 
@@ -452,7 +452,7 @@ const Modes: React.FC<ModesProps> = ({ onChordSelect }) => {
               <InStave keySignature={normalizeKeySignature(parentKey)} activeNotes={[]} />
             </div>
 
-<div className='modeTitle'>{rootNote} {selectedMode}</div>
+            <div className='modeTitle'>{rootNote} {selectedMode}</div>
 
           </div>
 
@@ -496,8 +496,8 @@ const Modes: React.FC<ModesProps> = ({ onChordSelect }) => {
           <div className="borrowed-chords">
             {(() => {
               const relativeMode = selectedMode === 'Aeolian' ? 'Ionian'
-                                : selectedMode === 'Ionian' ? 'Aeolian'
-                                : 'Aeolian';
+                : selectedMode === 'Ionian' ? 'Aeolian'
+                  : 'Aeolian';
               const relativeRoot = parentKey;
               const relativeChords = getModeChords(relativeRoot, relativeMode, showSevenths);
 
@@ -522,7 +522,7 @@ const Modes: React.FC<ModesProps> = ({ onChordSelect }) => {
                   className='modeChord'
                   key={index}
                   onClick={() => {
-                   
+
                     onChordSelect(chord);
                   }}
                 >
