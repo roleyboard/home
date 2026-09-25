@@ -117,8 +117,7 @@ export default function App() {
                 onClick={() => setActiveLearnTab(id)}
                 aria-pressed={activeLearnTab === id}
               >
-                <Icon className="learn-tab-icon" aria-hidden="true" />
-                <span>{label}</span>
+                <Icon className="learn-tab-icon" aria-hidden="true" /> <span>{label}</span>
               </button>
             ))}
           </nav>
@@ -166,36 +165,38 @@ export default function App() {
     return (
       <section className="music-container" aria-labelledby="music-heading">
         <div className="music-heading">
-          <div>
+          <div className="music-heading-copy">
             <p className="music-eyebrow">LISTEN</p>
             <h2 id="music-heading">MUSUK Songs</h2>
           </div>
 
-          <button
-            type="button"
-            className={`list-view${viewMode === 'list' ? ' is-active' : ''}`}
-            onClick={() => setViewMode('list')}
-            aria-label="List view"
-            aria-pressed={viewMode === 'list'}
-            title="List view"
-          >
-            <List aria-hidden="true" />
-          </button>
+          <div className="music-buttons">
+            <button
+              type="button"
+              className={`list-view${viewMode === 'list' ? ' is-active' : ''}`}
+              onClick={() => setViewMode('list')}
+              aria-label="List view"
+              aria-pressed={viewMode === 'list'}
+              title="List view"
+            >
+              <List aria-hidden="true" />
+            </button>
 
-          <button
-            type="button"
-            className={`icon-view${viewMode === 'grid' ? ' is-active' : ''}`}
-            onClick={() => setViewMode('grid')}
-            aria-label="Icon view"
-            aria-pressed={viewMode === 'grid'}
-            title="Icon view"
-          >
-            <LayoutGrid aria-hidden="true" />
-          </button>
+            <button
+              type="button"
+              className={`icon-view${viewMode === 'grid' ? ' is-active' : ''}`}
+              onClick={() => setViewMode('grid')}
+              aria-label="Icon view"
+              aria-pressed={viewMode === 'grid'}
+              title="Icon view"
+            >
+              <LayoutGrid aria-hidden="true" />
+            </button>
 
-          <button type="button" className="shuffle-button" onClick={shuffleUpcoming} aria-label="Shuffle upcoming songs" title="Shuffle upcoming songs">
-            <Shuffle aria-hidden="true" />
-          </button>
+            <button type="button" className="shuffle-button" onClick={shuffleUpcoming} aria-label="Shuffle upcoming songs" title="Shuffle upcoming songs">
+              <Shuffle aria-hidden="true" />
+            </button>
+          </div>
         </div>
 
         <div className={`song-list${viewMode === 'grid' ? ' icon-song-grid' : ''}`}>
