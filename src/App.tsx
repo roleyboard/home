@@ -10,6 +10,7 @@ import Modes from './components/Modes'
 import Progressions from './components/Progressions'
 import SongCard from './components/SongCard'
 import SongPlayer from './components/SongPlayer'
+import KaraokePlayer from './components/KaraokePlayer'
 import type { Song } from './data/songs'
 import { songs } from './data/songs'
 
@@ -144,22 +145,7 @@ export default function App() {
     }
 
     if (activeSection === 'perform') {
-      return (
-        <section className="music-container placeholder-section" aria-labelledby="perform-heading">
-          <div className="placeholder-card">
-            <p className="music-eyebrow">PERFORM</p>
-            <h2 id="perform-heading">MUSUK Perform</h2>
-            <div className="placeholder-grid">
-              <button type="button" className="placeholder-tile">
-                <span className="placeholder-tile-label">DrummerBoy</span>
-              </button>
-              <button type="button" className="placeholder-tile">
-                <span className="placeholder-tile-label">Backing Band</span>
-              </button>
-            </div>
-          </div>
-        </section>
-      )
+      return <KaraokePlayer />
     }
 
     return (

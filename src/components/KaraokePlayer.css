@@ -1,0 +1,25 @@
+.karaoke-page { max-width: 900px; padding-top: 28px; padding-bottom: 32px; }
+.karaoke-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 0 10px 20px; }
+.karaoke-heading h2 { margin: 4px 0; color: var(--text-h); font-size: clamp(1.7rem, 4vw, 2.5rem); }
+.karaoke-subtitle { margin: 0; color: var(--text); }
+.karaoke-badge { flex: none; padding: 7px 10px; border: 1px solid var(--border); border-radius: 999px; color: var(--accent); font-size: .68rem; font-weight: 700; letter-spacing: .1em; }
+.karaoke-stage { height: min(55vh, 520px); min-height: 300px; overflow: hidden; border: 1px solid var(--border); border-radius: 18px; background: var(--accent-bg); }
+.karaoke-lyrics { display: flex; height: 100%; overflow-y: auto; flex-direction: column; justify-content: center; gap: 7px; padding: 28px clamp(18px, 7vw, 72px); scroll-behavior: smooth; }
+.karaoke-line { width: 100%; padding: 7px 10px; border: 0; border-radius: 8px; color: var(--text); background: transparent; font: inherit; font-size: clamp(1.15rem, 3.3vw, 1.8rem); font-weight: 650; line-height: 1.35; text-align: left; opacity: .48; cursor: pointer; transition: color 160ms ease, opacity 160ms ease, transform 160ms ease; }
+.karaoke-line:hover { opacity: .8; }
+.karaoke-line.is-past { opacity: .65; }
+.karaoke-line.is-active { color: var(--accent-color, #d76b39); opacity: 1; transform: scale(1.025); }
+.karaoke-line:focus-visible, .karaoke-play:focus-visible, .karaoke-skip:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.karaoke-status { display: grid; height: 100%; place-items: center; padding: 24px; color: var(--text); text-align: center; }
+.karaoke-controls { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 28px; padding: 18px 8px 4px; }
+.karaoke-transport { display: flex; align-items: center; gap: 14px; }
+.karaoke-play, .karaoke-skip { position: relative; display: grid; place-items: center; padding: 0; border: 0; color: var(--text-h); background: transparent; cursor: pointer; }
+.karaoke-play { width: 52px; height: 52px; border-radius: 50%; color: var(--bg); background: var(--accent-color, #d76b39); }
+.karaoke-play svg { width: 21px; height: 21px; }
+.karaoke-skip { width: 36px; height: 36px; }
+.karaoke-skip svg { width: 22px; height: 22px; }
+.karaoke-skip span { position: absolute; font-size: 9px; font-weight: 700; }
+.karaoke-timeline { display: grid; grid-template-columns: 38px minmax(0, 1fr) 38px; align-items: center; gap: 10px; color: var(--text); font-size: .8rem; font-variant-numeric: tabular-nums; }
+.karaoke-timeline input { width: 100%; accent-color: var(--accent-color, #d76b39); }
+.karaoke-hint { margin: 10px 8px 0; color: var(--text); font-size: .85rem; opacity: .75; }
+@media (max-width: 600px) { .karaoke-heading { align-items: flex-start; } .karaoke-badge { margin-top: 7px; font-size: .58rem; } .karaoke-stage { min-height: 260px; height: 48vh; } .karaoke-controls { grid-template-columns: 1fr; justify-items: center; gap: 12px; } .karaoke-timeline { width: 100%; } }
