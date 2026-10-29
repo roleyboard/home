@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { AudioLines, Drum, Guitar, Mic2, Pause, Play, RotateCcw, RotateCw, type LucideIcon } from 'lucide-react'
+import { AudioLines, Drum, Guitar, Mic2, Pause, Play, RefreshCw, RotateCcw, RotateCw, type LucideIcon } from 'lucide-react'
 import './KaraokePlayer.css'
 
 type LyricLine = { time: number; text: string; section?: boolean }
@@ -241,6 +241,7 @@ export default function KaraokePlayer() {
   const [availableStems, setAvailableStems] = useState<StemTrack[]>([])
   const [enabledStems, setEnabledStems] = useState<string[]>([])
   const [mixTime, setMixTime] = useState(0)
+  const [lyricsReloadKey, setLyricsReloadKey] = useState(0)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -259,7 +260,7 @@ export default function KaraokePlayer() {
     return () => controller.abort()
   }, [])
 
-  const isOriginalMix = enabledStems.length === availableStems.length
+  const isOriginalMix = Boolean(selectedSong.audio) && enabledStems.length === availableStems.length
   const getMixTime = () => {
     const context = audioContextRef.current
     if (!isOriginalMix) {
@@ -390,7 +391,7 @@ export default function KaraokePlayer() {
     setIsPlaying(false)
     setPlaybackFinished(false)
     audioRef.current?.pause()
-    fetch(selectedSong.lyrics, { signal: controller.signal })
+    fetch(`${selectedSong.lyrics}?refresh=${lyricsReloadKey}`, { signal: controller.signal, cache: 'no-store' })
       .then((response) => {
         if (!response.ok) throw new Error('Could not load the LRC lyrics file.')
         return response.text()
@@ -400,17 +401,18 @@ export default function KaraokePlayer() {
         if (error.name !== 'AbortError') setLoadError(error.message)
       })
     if (selectedSong.chords) {
-      fetch(selectedSong.chords, { signal: controller.signal })
+      fetch(`${selectedSong.chords}?refresh=${lyricsReloadKey}`, { signal: controller.signal, cache: 'no-store' })
         .then((response) => response.ok ? response.text() : '')
         .then(setChordText)
         .catch((error: Error) => { if (error.name !== 'AbortError') setChordText('') })
     }
     return () => controller.abort()
-  }, [selectedSong.lyrics, selectedSong.chords])
+  }, [selectedSong.lyrics, selectedSong.chords, lyricsReloadKey])
 
   useEffect(() => {
     const controller = new AbortController()
     setTempo(null)
+    if (!selectedSong.audio) return () => controller.abort()
     fetch(selectedSong.audio, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error('Could not analyze audio')
@@ -557,12 +559,17 @@ export default function KaraokePlayer() {
         <div>
           <p className="music-eyebrow">PERFORM</p>
           <h2 id="perform-heading">Karaoke</h2>
-          <label className="karaoke-song-picker">
+          <div className="karaoke-song-picker">
             <span>Choose a song</span>
-            <select value={selectedSongId} onChange={(event) => chooseSong(event.target.value)}>
-              {karaokeSongs.map((song) => <option key={song.id} value={song.id}>{song.title}</option>)}
-            </select>
-          </label>
+            <div className="karaoke-song-picker-row">
+              <select aria-label="Choose a song" value={selectedSongId} onChange={(event) => chooseSong(event.target.value)}>
+                {karaokeSongs.map((song) => <option key={song.id} value={song.id}>{song.title}</option>)}
+              </select>
+              <button className="karaoke-refresh" type="button" onClick={() => setLyricsReloadKey((key) => key + 1)} aria-label="Refresh lyrics and chords" title="Reload lyrics and chords from disk">
+                <RefreshCw aria-hidden="true" />
+              </button>
+            </div>
+          </div>
         </div>
         <span className="karaoke-badge">LINE-SYNCED LYRICS</span>
       </header>
@@ -659,7 +666,7 @@ export default function KaraokePlayer() {
 
       <audio
         ref={audioRef}
-        src={selectedSong.audio}
+        src={selectedSong.audio || undefined}
         preload="metadata"
         onTimeUpdate={(event) => { if (isOriginalMix) setCurrentTime(event.currentTarget.currentTime) }}
         onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}

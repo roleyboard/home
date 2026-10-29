@@ -7,29 +7,40 @@ const karaokeDirectory = resolve(__dirname, 'public/karaoke')
 
 async function discoverKaraokeSongs() {
   const files = await readdir(karaokeDirectory)
-  const fileSet = new Set(files)
-  const stemMp3 = /_(?:vocal|vocals|backing_vocals|drums|bass|guitar|keyboard|background)\.mp3$/i
+  const byLowercaseName = new Map(files.map((file) => [file.toLowerCase(), file]))
+  const stemName = /_(?:vocal|vocals|backing_vocals|drums|bass|guitar|keyboard|background)\.(?:ogg|mp3)$/i
+  const lyricFiles = files.filter((file) => file.toLowerCase().endsWith('.lrc'))
 
-  return files
-    .filter((file) => file.toLowerCase().endsWith('.mp3') && !stemMp3.test(file))
-    .map((file) => file.slice(0, -4))
-    .filter((title) => fileSet.has(`${title}.lrc`))
-    .sort((left, right) => left.localeCompare(right))
-    .map((title) => {
-      const encodedTitle = encodeURIComponent(title)
+  return lyricFiles
+    .map((lyricsFile) => {
+      const title = lyricsFile.slice(0, -4)
+      const matchingAudio = byLowercaseName.get(`${title}.mp3`.toLowerCase())
+      const hasStemAudio = files.some((file) => {
+        const lowerFile = file.toLowerCase()
+        return lowerFile.startsWith(`${title}_`.toLowerCase()) && stemName.test(file)
+      })
+      if (!matchingAudio && !hasStemAudio) return null
+
+      const chordFile = byLowercaseName.get(`${title}.chords`.toLowerCase())
       return {
         id: title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
         title,
-        audio: `/karaoke/${encodedTitle}.mp3`,
-        lyrics: `/karaoke/${encodedTitle}.lrc`,
-        chords: fileSet.has(`${title}.chords`) ? `/karaoke/${encodedTitle}.chords` : '',
+        audio: matchingAudio ? `/karaoke/${encodeURIComponent(matchingAudio)}` : '',
+        lyrics: `/karaoke/${encodeURIComponent(lyricsFile)}`,
+        chords: chordFile ? `/karaoke/${encodeURIComponent(chordFile)}` : '',
       }
     })
+    .filter((song) => song !== null)
+    .sort((left, right) => left.title.localeCompare(right.title))
 }
 
 function karaokeCatalogPlugin(): Plugin {
+  let isProductionBuild = false
   return {
     name: 'karaoke-song-catalog',
+    configResolved(config) {
+      isProductionBuild = config.command === 'build'
+    },
     configureServer(server) {
       server.middlewares.use('/karaoke/songs.json', async (request, response, next) => {
         if (request.method !== 'GET') return next()
@@ -43,6 +54,7 @@ function karaokeCatalogPlugin(): Plugin {
       })
     },
     async buildStart() {
+      if (!isProductionBuild) return
       this.emitFile({
         type: 'asset',
         fileName: 'karaoke/songs.json',
