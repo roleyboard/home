@@ -6,30 +6,37 @@ type LyricLine = { time: number; text: string; section?: boolean }
 type ChordPhrase = { section: string; lyric: string; chords: string[] }
 type ChordEvent = { time: number; chord: string; section: string; id: string }
 type StemTrack = { id: string; label: string; src: string; icon: LucideIcon }
+type StemCandidate = Omit<StemTrack, 'src'> & { sources: string[] }
+type KaraokeSong = { id: string; title: string; audio: string; lyrics: string; chords: string; stems: StemCandidate[] }
 
 const stemTypes = [
-  { id: 'vocal', suffix: 'vocal', label: 'Vocals', icon: Mic2 },
-  { id: 'backing-vocals', suffix: 'backing_vocals', label: 'Backing Vocals', icon: Mic2 },
-  { id: 'drums', suffix: 'drums', label: 'Drums', icon: Drum },
-  { id: 'bass', suffix: 'bass', label: 'Bass', icon: Guitar },
-  { id: 'guitar', suffix: 'guitar', label: 'Guitar', icon: Guitar },
-  { id: 'keyboard', suffix: 'keyboard', label: 'Keyboard (Rhodes EP)', icon: AudioLines },
-  { id: 'background', suffix: 'background', label: 'Background', icon: AudioLines },
+  { id: 'vocal', suffixes: ['vocal.ogg', 'vocals.ogg', 'vocals.mp3'], label: 'Vocals', icon: Mic2 },
+  { id: 'backing-vocals', suffixes: ['backing_vocals.ogg'], label: 'Backing Vocals', icon: Mic2 },
+  { id: 'drums', suffixes: ['drums.ogg'], label: 'Drums', icon: Drum },
+  { id: 'bass', suffixes: ['bass.ogg'], label: 'Bass', icon: Guitar },
+  { id: 'guitar', suffixes: ['guitar.ogg'], label: 'Guitar', icon: Guitar },
+  { id: 'keyboard', suffixes: ['keyboard.ogg'], label: 'Keyboard (Rhodes EP)', icon: AudioLines },
+  { id: 'background', suffixes: ['background.ogg'], label: 'Background', icon: AudioLines },
 ] as const
 
-function stemCandidatesFor(songTitle: string): StemTrack[] {
-  return stemTypes.map(({ id, suffix, label, icon }) => ({
+function stemCandidatesFor(songTitle: string): StemCandidate[] {
+  return stemTypes.map(({ id, suffixes, label, icon }) => ({
     id,
     label,
-    src: `/karaoke/${songTitle}_${suffix}.ogg`,
+    sources: suffixes.map((suffix) => `/karaoke/${songTitle}_${suffix}`),
     icon,
   }))
 }
 
-const karaokeSongs = [
-  { id: 'baby-can-i-hold-you', title: 'Baby Can I Hold You', audio: '/karaoke/Baby Can I Hold You.mp3', lyrics: '/karaoke/Baby Can I Hold You.lrc', chords: '/karaoke/Baby Can I Hold You.chords', stems: stemCandidatesFor('Baby Can I Hold You') },
-  { id: 'on-and-on', title: 'On and On', audio: '/karaoke/On and On.mp3', lyrics: '/karaoke/On and On.lrc', stems: stemCandidatesFor('On and On').map((stem) => stem.id === 'vocal' ? { ...stem, src: '/karaoke/On and On_vocals.mp3' } : stem), chords: '/karaoke/On and On.chords' },
-]
+const fallbackSongTitles = ['Baby Can I Hold You', 'On and On']
+const fallbackSongs: KaraokeSong[] = fallbackSongTitles.map((title) => ({
+  id: title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+  title,
+  audio: `/karaoke/${title}.mp3`,
+  lyrics: `/karaoke/${title}.lrc`,
+  chords: `/karaoke/${title}.chords`,
+  stems: stemCandidatesFor(title),
+}))
 
 function parseLrc(source: string): LyricLine[] {
   const lines: LyricLine[] = []
@@ -220,7 +227,8 @@ export default function KaraokePlayer() {
   const activeLineRef = useRef<HTMLButtonElement>(null)
   const chordBarRef = useRef<HTMLDivElement>(null)
   const activeChordRef = useRef<HTMLButtonElement>(null)
-  const [selectedSongId, setSelectedSongId] = useState(karaokeSongs[0].id)
+  const [karaokeSongs, setKaraokeSongs] = useState<KaraokeSong[]>(fallbackSongs)
+  const [selectedSongId, setSelectedSongId] = useState(fallbackSongs[0].id)
   const selectedSong = karaokeSongs.find((song) => song.id === selectedSongId) ?? karaokeSongs[0]
   const [lrcText, setLrcText] = useState('')
   const [chordText, setChordText] = useState('')
@@ -233,6 +241,23 @@ export default function KaraokePlayer() {
   const [availableStems, setAvailableStems] = useState<StemTrack[]>([])
   const [enabledStems, setEnabledStems] = useState<string[]>([])
   const [mixTime, setMixTime] = useState(0)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    fetch('/karaoke/songs.json', { signal: controller.signal, cache: 'no-store' })
+      .then((response) => {
+        if (!response.ok) throw new Error('Song catalog is not available.')
+        return response.json() as Promise<Array<Omit<KaraokeSong, 'stems'>>>
+      })
+      .then((songs) => {
+        if (!songs.length) return
+        const discoveredSongs = songs.map((song) => ({ ...song, stems: stemCandidatesFor(song.title) }))
+        setKaraokeSongs(discoveredSongs)
+        setSelectedSongId((currentId) => discoveredSongs.some((song) => song.id === currentId) ? currentId : discoveredSongs[0].id)
+      })
+      .catch(() => { /* Use the built-in songs if the catalog endpoint is unavailable. */ })
+    return () => controller.abort()
+  }, [])
 
   const isOriginalMix = enabledStems.length === availableStems.length
   const getMixTime = () => {
@@ -322,15 +347,18 @@ export default function KaraokePlayer() {
     setIsPlaying(false)
     setPlaybackFinished(false)
     const controller = new AbortController()
-    Promise.all(selectedSong.stems.map(async (stem) => {
-      try {
-        const response = await fetch(stem.src, { method: 'HEAD', signal: controller.signal })
-        const contentType = response.headers.get('content-type')?.toLowerCase() ?? ''
-        const isSupportedAudio = contentType.includes('audio/ogg') || contentType.includes('application/ogg') || contentType.includes('audio/mpeg')
-        return response.ok && isSupportedAudio ? stem : null
-      } catch {
-        return null
+    Promise.all(selectedSong.stems.map(async (candidate) => {
+      for (const src of candidate.sources) {
+        try {
+          const response = await fetch(src, { method: 'HEAD', signal: controller.signal })
+          const contentType = response.headers.get('content-type')?.toLowerCase() ?? ''
+          const isSupportedAudio = contentType.includes('audio/ogg') || contentType.includes('application/ogg') || contentType.includes('audio/mpeg')
+          if (response.ok && isSupportedAudio) return { id: candidate.id, label: candidate.label, icon: candidate.icon, src }
+        } catch {
+          if (controller.signal.aborted) return null
+        }
       }
+      return null
     })).then((results) => {
       if (controller.signal.aborted) return
       const found = results.filter((stem): stem is StemTrack => Boolean(stem))
