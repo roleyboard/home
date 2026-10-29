@@ -431,6 +431,15 @@ export default function KaraokePlayer() {
   const lines = useMemo(() => parseLrc(lrcText), [lrcText])
   const chordEvents = useMemo(() => alignChords(parseChordChart(chordText), lines), [chordText, lines])
   const sections = useMemo(() => lines.filter((line) => line.section), [lines])
+  const activeSectionIndex = useMemo(() => {
+    if (playbackFinished) return -1
+    let active = -1
+    for (let index = 0; index < sections.length; index += 1) {
+      if (sections[index].time > currentTime) break
+      active = index
+    }
+    return active
+  }, [currentTime, playbackFinished, sections])
   const activeIndex = useMemo(() => {
     let low = 0
     let high = lines.length - 1
@@ -574,13 +583,6 @@ export default function KaraokePlayer() {
         <span className="karaoke-badge">LINE-SYNCED LYRICS</span>
       </header>
 
-      {sections.length > 0 && <nav className="karaoke-sections" aria-label="Jump to song section">
-        <span>Sections</span>
-        {sections.map((section, index) => <button key={`${section.time}-${index}`} type="button" onClick={() => playFromLyric(section.time)}>
-          {section.text.replace(/^[([]|[)\]]$/g, '')}
-        </button>)}
-      </nav>}
-
       {availableStems.length > 0 && <fieldset className="karaoke-stems">
         <legend>Backing tracks <span>{isOriginalMix ? 'Original mix' : 'Custom mix'}</span></legend>
         <div className="karaoke-stem-list">
@@ -615,6 +617,19 @@ export default function KaraokePlayer() {
           </div>
         )}
       </div>
+
+      {sections.length > 0 && <fieldset className="karaoke-sections">
+        <legend>Sections</legend>
+        <div className="karaoke-section-list" aria-label="Jump to song section">
+          {sections.map((section, index) => <button
+            key={`${section.time}-${index}`}
+            type="button"
+            className={index === activeSectionIndex ? 'is-active' : ''}
+            aria-current={index === activeSectionIndex ? 'true' : undefined}
+            onClick={() => playFromLyric(section.time)}
+          >{section.text.replace(/^[([]|[)\]]$/g, '')}</button>)}
+        </div>
+      </fieldset>}
 
       {chordEvents.length > 0 && <fieldset className="karaoke-chords" aria-label="Chord bar">
         <legend>Chord bar</legend>
