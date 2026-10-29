@@ -11,7 +11,8 @@ const karaokeSongs = [
     { id: 'vocal', label: 'Vocals', src: '/karaoke/Baby Can I Hold You_vocal.ogg', icon: Mic2 },
     { id: 'drums', label: 'Drums', src: '/karaoke/Baby Can I Hold You_drums.ogg', icon: Drum },
     { id: 'bass', label: 'Bass', src: '/karaoke/Baby Can I Hold You_bass.ogg', icon: Guitar },
-    { id: 'others', label: 'Other instruments', src: '/karaoke/Baby Can I Hold You_others.ogg', icon: AudioLines },
+    { id: 'guitar', label: 'Guitar', src: '/karaoke/Baby Can I Hold You_guitar.ogg', icon: Guitar },
+    { id: 'background', label: 'Background', src: '/karaoke/Baby Can I Hold You_background.ogg', icon: AudioLines },
   ] },
   { id: 'on-and-on', title: 'On and On', audio: '/karaoke/On and On.mp3', lyrics: '/karaoke/On and On.lrc', stems: [], chords: '' },
 ]
