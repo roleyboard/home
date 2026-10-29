@@ -513,7 +513,6 @@ export default function KaraokePlayer() {
             <Icon aria-hidden="true" /><span>{label}</span>
           </label>)}
         </div>
-        <p>All tracks selected plays the original recording. Turn off vocals to sing with the backing.</p>
       </fieldset>}
 
       <div className="karaoke-stage" aria-live="off">
@@ -541,8 +540,8 @@ export default function KaraokePlayer() {
         )}
       </div>
 
-      {chordEvents.length > 0 && <div className="karaoke-chords" aria-label="Chord bar">
-        <strong>Chord bar</strong>
+      {chordEvents.length > 0 && <fieldset className="karaoke-chords" aria-label="Chord bar">
+        <legend>Chord bar</legend>
         <div className="karaoke-chord-track" ref={chordBarRef}>
           {chordEvents.map((event, index) => <button
             key={event.id}
@@ -553,7 +552,7 @@ export default function KaraokePlayer() {
             title={`${event.section} · ${formatTime(event.time)}`}
           >{event.chord}</button>)}
         </div>
-      </div>}
+      </fieldset>}
 
       {tempo && <fieldset className="karaoke-beats" aria-label={`Beat bar, estimated ${tempo.bpm} beats per minute`}>
         <legend>Beat bar <span>Estimated {tempo.bpm} BPM</span></legend>
@@ -600,7 +599,6 @@ export default function KaraokePlayer() {
         onEnded={() => { setIsPlaying(false); setPlaybackFinished(true) }}
         onError={() => setLoadError('Could not load the karaoke MP3.')}
       />
-      <p className="karaoke-hint">Tap any lyric line to jump to that point in the song.</p>
     </section>
   )
 }

@@ -22,8 +22,6 @@
 .karaoke-skip span { position: absolute; font-size: 9px; font-weight: 700; }
 .karaoke-timeline { display: grid; grid-template-columns: 38px minmax(0, 1fr) 38px; align-items: center; gap: 10px; color: var(--text); font-size: .8rem; font-variant-numeric: tabular-nums; }
 .karaoke-timeline input { width: 100%; accent-color: var(--accent-color, #d76b39); }
-.karaoke-hint { margin: 10px 8px 0; color: var(--text); font-size: .85rem; opacity: .75; }
-@media (max-width: 600px) { .karaoke-heading { align-items: flex-start; } .karaoke-badge { margin-top: 7px; font-size: .58rem; } .karaoke-stage { min-height: 260px; height: 48vh; } .karaoke-controls { grid-template-columns: 1fr; justify-items: center; gap: 12px; } .karaoke-timeline { width: 100%; } }
 
 .karaoke-song-picker { display: grid; gap: 5px; margin-top: 14px; color: var(--text); font-size: .8rem; font-weight: 600; }
 .karaoke-song-picker select { width: min(100%, 320px); padding: 9px 34px 9px 12px; border: 1px solid var(--border); border-radius: 9px; color: var(--text-h); background: var(--bg); font: inherit; font-size: .95rem; cursor: pointer; }
@@ -36,13 +34,12 @@
 .karaoke-stem:has(input:checked) { border-color: var(--accent-color, #d76b39); background: var(--accent-bg); }
 .karaoke-stem input { margin: 0; accent-color: var(--accent-color, #d76b39); }
 .karaoke-stem svg { width: 16px; height: 16px; color: var(--accent-color, #d76b39); }
-.karaoke-stems p { margin: 9px 0 0; color: var(--text); font-size: .76rem; opacity: .78; }
 .karaoke-sections { display: flex; align-items: center; gap: 7px; margin: 0 8px 14px; overflow-x: auto; padding: 2px 1px 7px; }
 .karaoke-sections > span { flex: none; color: var(--text); font-size: .75rem; font-weight: 700; }
 .karaoke-sections button { flex: none; padding: 6px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--text-h); background: var(--bg); font: inherit; font-size: .75rem; cursor: pointer; }
 .karaoke-sections button:hover { border-color: var(--accent-color, #d76b39); color: var(--accent-color, #d76b39); }
-.karaoke-chords { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; margin: 14px 8px 0; }
-.karaoke-chords > strong { color: var(--text); font-size: .75rem; white-space: nowrap; }
+.karaoke-chords { min-width: 0; margin: 14px 8px 0; padding: 10px 12px 5px; border: 1px solid var(--border); border-radius: 12px; }
+.karaoke-chords legend { padding: 0 6px; color: var(--text-h); font-size: .82rem; font-weight: 700; }
 .karaoke-chord-track { display: flex; min-width: 0; gap: 7px; overflow-x: auto; padding: 3px 2px 9px; scroll-behavior: smooth; scrollbar-width: thin; }
 .karaoke-chord { flex: none; min-width: 48px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; color: var(--text-h); background: var(--bg); font: inherit; font-size: .9rem; font-weight: 700; text-align: center; scroll-snap-align: center; cursor: pointer; }
 .karaoke-chord { position: relative; z-index: 0; transition: transform 160ms ease, font-size 160ms ease; }
@@ -55,3 +52,4 @@
 .karaoke-beat { display: grid; min-height: 32px; place-items: center; border: 1px solid var(--border); border-radius: 7px; color: var(--text-h); background: var(--bg); font-size: .83rem; font-weight: 700; transition: transform 120ms ease, background 120ms ease, color 120ms ease; }
 .karaoke-beat.is-active { z-index: 1; transform: scale(1.17); }
 .karaoke-beat.is-active:not(.is-subbeat) { font-size: 1rem; font-weight: 850; }
+@media (max-width: 600px) { .karaoke-heading { align-items: flex-start; } .karaoke-badge { margin-top: 7px; font-size: .58rem; } .karaoke-stage { min-height: 210px; height: 36vh; } .karaoke-controls { grid-template-columns: 1fr; justify-items: center; gap: 12px; padding-top: 12px; } .karaoke-timeline { width: 100%; } .karaoke-stems { margin-bottom: 10px; padding: 9px 10px; } .karaoke-sections { margin-bottom: 8px; } .karaoke-chords, .karaoke-beats { margin-top: 7px; padding: 8px 9px 10px; } }
