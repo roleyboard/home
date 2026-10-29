@@ -28,7 +28,7 @@ function stemCandidatesFor(songTitle: string): StemTrack[] {
 
 const karaokeSongs = [
   { id: 'baby-can-i-hold-you', title: 'Baby Can I Hold You', audio: '/karaoke/Baby Can I Hold You.mp3', lyrics: '/karaoke/Baby Can I Hold You.lrc', chords: '/karaoke/Baby Can I Hold You.chords', stems: stemCandidatesFor('Baby Can I Hold You') },
-  { id: 'on-and-on', title: 'On and On', audio: '/karaoke/On and On.mp3', lyrics: '/karaoke/On and On.lrc', stems: stemCandidatesFor('On and On').map((stem) => stem.id === 'vocal' ? { ...stem, src: '/karaoke/On and On_vocals.mp3' } : stem), chords: '' },
+  { id: 'on-and-on', title: 'On and On', audio: '/karaoke/On and On.mp3', lyrics: '/karaoke/On and On.lrc', stems: stemCandidatesFor('On and On').map((stem) => stem.id === 'vocal' ? { ...stem, src: '/karaoke/On and On_vocals.mp3' } : stem), chords: '/karaoke/On and On.chords' },
 ]
 
 function parseLrc(source: string): LyricLine[] {
