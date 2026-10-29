@@ -555,8 +555,8 @@ export default function KaraokePlayer() {
         </div>
       </div>}
 
-      {tempo && <div className="karaoke-beats" aria-label={`Beat bar, estimated ${tempo.bpm} beats per minute`}>
-        <div className="karaoke-beat-heading"><strong>Beat bar</strong><span>Estimated {tempo.bpm} BPM</span></div>
+      {tempo && <fieldset className="karaoke-beats" aria-label={`Beat bar, estimated ${tempo.bpm} beats per minute`}>
+        <legend>Beat bar <span>Estimated {tempo.bpm} BPM</span></legend>
         <div className="karaoke-beat-track">
           {['1', '&', '2', '&', '3', '&', '4', '&'].map((beat, index) => <span
             key={`${beat}-${index}`}
@@ -564,7 +564,7 @@ export default function KaraokePlayer() {
             aria-current={index === beatStepIndex ? 'step' : undefined}
           >{beat}</span>)}
         </div>
-      </div>}
+      </fieldset>}
 
       <div className="karaoke-controls">
         <div className="karaoke-transport">
