@@ -1,20 +1,33 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { AudioLines, Drum, Guitar, Mic2, Pause, Play, RotateCcw, RotateCw } from 'lucide-react'
+import { AudioLines, Drum, Guitar, Mic2, Pause, Play, RotateCcw, RotateCw, type LucideIcon } from 'lucide-react'
 import './KaraokePlayer.css'
 
 type LyricLine = { time: number; text: string; section?: boolean }
 type ChordPhrase = { section: string; lyric: string; chords: string[] }
 type ChordEvent = { time: number; chord: string; section: string; id: string }
+type StemTrack = { id: string; label: string; src: string; icon: LucideIcon }
+
+const stemTypes = [
+  { id: 'vocal', suffix: 'vocal', label: 'Vocals', icon: Mic2 },
+  { id: 'drums', suffix: 'drums', label: 'Drums', icon: Drum },
+  { id: 'bass', suffix: 'bass', label: 'Bass', icon: Guitar },
+  { id: 'guitar', suffix: 'guitar', label: 'Guitar', icon: Guitar },
+  { id: 'piano', suffix: 'piano', label: 'Piano', icon: AudioLines },
+  { id: 'background', suffix: 'background', label: 'Background', icon: AudioLines },
+] as const
+
+function stemCandidatesFor(songTitle: string): StemTrack[] {
+  return stemTypes.map(({ id, suffix, label, icon }) => ({
+    id,
+    label,
+    src: `/karaoke/${songTitle}_${suffix}.ogg`,
+    icon,
+  }))
+}
 
 const karaokeSongs = [
-  { id: 'baby-can-i-hold-you', title: 'Baby Can I Hold You', audio: '/karaoke/Baby Can I Hold You.mp3', lyrics: '/karaoke/Baby Can I Hold You.lrc', chords: '/karaoke/Baby Can I Hold You.chords', stems: [
-    { id: 'vocal', label: 'Vocals', src: '/karaoke/Baby Can I Hold You_vocal.ogg', icon: Mic2 },
-    { id: 'drums', label: 'Drums', src: '/karaoke/Baby Can I Hold You_drums.ogg', icon: Drum },
-    { id: 'bass', label: 'Bass', src: '/karaoke/Baby Can I Hold You_bass.ogg', icon: Guitar },
-    { id: 'guitar', label: 'Guitar', src: '/karaoke/Baby Can I Hold You_guitar.ogg', icon: Guitar },
-    { id: 'background', label: 'Background', src: '/karaoke/Baby Can I Hold You_background.ogg', icon: AudioLines },
-  ] },
-  { id: 'on-and-on', title: 'On and On', audio: '/karaoke/On and On.mp3', lyrics: '/karaoke/On and On.lrc', stems: [], chords: '' },
+  { id: 'baby-can-i-hold-you', title: 'Baby Can I Hold You', audio: '/karaoke/Baby Can I Hold You.mp3', lyrics: '/karaoke/Baby Can I Hold You.lrc', chords: '/karaoke/Baby Can I Hold You.chords', stems: stemCandidatesFor('Baby Can I Hold You') },
+  { id: 'on-and-on', title: 'On and On', audio: '/karaoke/On and On.mp3', lyrics: '/karaoke/On and On.lrc', stems: stemCandidatesFor('On and On'), chords: '' },
 ]
 
 function parseLrc(source: string): LyricLine[] {
@@ -216,10 +229,11 @@ export default function KaraokePlayer() {
   const [duration, setDuration] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [playbackFinished, setPlaybackFinished] = useState(false)
-  const [enabledStems, setEnabledStems] = useState<string[]>(selectedSong.stems.map((stem) => stem.id))
+  const [availableStems, setAvailableStems] = useState<StemTrack[]>([])
+  const [enabledStems, setEnabledStems] = useState<string[]>([])
   const [mixTime, setMixTime] = useState(0)
 
-  const isOriginalMix = enabledStems.length === selectedSong.stems.length
+  const isOriginalMix = enabledStems.length === availableStems.length
   const getMixTime = () => {
     const context = audioContextRef.current
     if (!isOriginalMix) {
@@ -246,17 +260,17 @@ export default function KaraokePlayer() {
   }
 
   const playStemMix = async (offset: number) => {
-    if (!selectedSong.stems.length) return
+    if (!availableStems.length) return
     const context = audioContextRef.current ?? new AudioContext()
     audioContextRef.current = context
     await context.resume()
-    const stems = selectedSong.stems.filter((stem) => enabledStems.includes(stem.id))
+    const stems = availableStems.filter((stem) => enabledStems.includes(stem.id))
     const buffers = await Promise.all(stems.map(async (stem) => {
-      if (stemBuffersRef.current[stem.id]) return stemBuffersRef.current[stem.id]
+      if (stemBuffersRef.current[stem.src]) return stemBuffersRef.current[stem.src]
       const response = await fetch(stem.src)
       if (!response.ok) throw new Error(`Could not load the ${stem.label.toLowerCase()} track.`)
       const buffer = await context.decodeAudioData(await response.arrayBuffer())
-      stemBuffersRef.current[stem.id] = buffer
+      stemBuffersRef.current[stem.src] = buffer
       return buffer
     }))
     if (!buffers.length) return
@@ -292,12 +306,29 @@ export default function KaraokePlayer() {
     stopStemSources(false)
     audioRef.current?.pause()
     audioRef.current?.load()
-    setEnabledStems(selectedSong.stems.map((stem) => stem.id))
+    setAvailableStems([])
+    setEnabledStems([])
     setMixTime(0)
     setCurrentTime(0)
     setDuration(0)
     setIsPlaying(false)
     setPlaybackFinished(false)
+    const controller = new AbortController()
+    Promise.all(selectedSong.stems.map(async (stem) => {
+      try {
+        const response = await fetch(stem.src, { method: 'HEAD', signal: controller.signal })
+        const contentType = response.headers.get('content-type')?.toLowerCase() ?? ''
+        return response.ok && (contentType.includes('audio/ogg') || contentType.includes('application/ogg')) ? stem : null
+      } catch {
+        return null
+      }
+    })).then((results) => {
+      if (controller.signal.aborted) return
+      const found = results.filter((stem): stem is StemTrack => Boolean(stem))
+      setAvailableStems(found)
+      setEnabledStems(found.map((stem) => stem.id))
+    })
+    return () => controller.abort()
   }, [selectedSong.id])
 
   useEffect(() => {
@@ -307,10 +338,10 @@ export default function KaraokePlayer() {
         audioRef.current.currentTime = mixTime
         if (isPlaying) void audioRef.current.play().catch(() => setLoadError('Could not play the selected audio tracks.'))
       }
-    } else if (isPlaying && selectedSong.stems.length) {
+    } else if (isPlaying && availableStems.length) {
       void playStemMix(mixTime).catch((error: Error) => setLoadError(error.message))
     }
-  }, [enabledStems, selectedSong.id])
+  }, [availableStems, enabledStems, selectedSong.id])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -506,10 +537,10 @@ export default function KaraokePlayer() {
         </button>)}
       </nav>}
 
-      {selectedSong.stems.length > 0 && <fieldset className="karaoke-stems">
+      {availableStems.length > 0 && <fieldset className="karaoke-stems">
         <legend>Backing tracks <span>{isOriginalMix ? 'Original mix' : 'Custom mix'}</span></legend>
         <div className="karaoke-stem-list">
-          {selectedSong.stems.map(({ id, label, icon: Icon }) => <label className="karaoke-stem" key={id}>
+          {availableStems.map(({ id, label, icon: Icon }) => <label className="karaoke-stem" key={id}>
             <input type="checkbox" checked={enabledStems.includes(id)} onChange={() => toggleStem(id)} />
             <Icon aria-hidden="true" /><span>{label}</span>
           </label>)}
