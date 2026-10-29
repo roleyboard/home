@@ -23,3 +23,7 @@
 .karaoke-timeline input { width: 100%; accent-color: var(--accent-color, #d76b39); }
 .karaoke-hint { margin: 10px 8px 0; color: var(--text); font-size: .85rem; opacity: .75; }
 @media (max-width: 600px) { .karaoke-heading { align-items: flex-start; } .karaoke-badge { margin-top: 7px; font-size: .58rem; } .karaoke-stage { min-height: 260px; height: 48vh; } .karaoke-controls { grid-template-columns: 1fr; justify-items: center; gap: 12px; } .karaoke-timeline { width: 100%; } }
+
+.karaoke-song-picker { display: grid; gap: 5px; margin-top: 14px; color: var(--text); font-size: .8rem; font-weight: 600; }
+.karaoke-song-picker select { width: min(100%, 320px); padding: 9px 34px 9px 12px; border: 1px solid var(--border); border-radius: 9px; color: var(--text-h); background: var(--bg); font: inherit; font-size: .95rem; cursor: pointer; }
+.karaoke-song-picker select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

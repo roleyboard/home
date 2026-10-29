@@ -4,8 +4,10 @@ import './KaraokePlayer.css'
 
 type LyricLine = { time: number; text: string }
 
-const audioUrl = '/karaoke/Baby Can I Hold You.mp3'
-const lyricsUrl = '/karaoke/Baby Can I Hold You.lrc'
+const karaokeSongs = [
+  { id: 'baby-can-i-hold-you', title: 'Baby Can I Hold You', audio: '/karaoke/Baby Can I Hold You.mp3', lyrics: '/karaoke/Baby Can I Hold You.lrc' },
+  { id: 'on-and-on', title: 'On and On', audio: '/karaoke/On and On.mp3', lyrics: '/karaoke/On and On.lrc' },
+]
 
 function parseLrc(source: string): LyricLine[] {
   const lines: LyricLine[] = []
@@ -40,6 +42,8 @@ function formatTime(seconds: number) {
 export default function KaraokePlayer() {
   const audioRef = useRef<HTMLAudioElement>(null)
   const activeLineRef = useRef<HTMLButtonElement>(null)
+  const [selectedSongId, setSelectedSongId] = useState(karaokeSongs[0].id)
+  const selectedSong = karaokeSongs.find((song) => song.id === selectedSongId) ?? karaokeSongs[0]
   const [lrcText, setLrcText] = useState('')
   const [loadError, setLoadError] = useState('')
   const [currentTime, setCurrentTime] = useState(0)
@@ -48,7 +52,13 @@ export default function KaraokePlayer() {
 
   useEffect(() => {
     const controller = new AbortController()
-    fetch(lyricsUrl, { signal: controller.signal })
+    setLrcText('')
+    setLoadError('')
+    setCurrentTime(0)
+    setDuration(0)
+    setIsPlaying(false)
+    audioRef.current?.pause()
+    fetch(selectedSong.lyrics, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error('Could not load the LRC lyrics file.')
         return response.text()
@@ -58,7 +68,7 @@ export default function KaraokePlayer() {
         if (error.name !== 'AbortError') setLoadError(error.message)
       })
     return () => controller.abort()
-  }, [])
+  }, [selectedSong.lyrics])
 
   const lines = useMemo(() => parseLrc(lrcText), [lrcText])
   const activeIndex = useMemo(() => {
@@ -102,7 +112,12 @@ export default function KaraokePlayer() {
         <div>
           <p className="music-eyebrow">PERFORM</p>
           <h2 id="perform-heading">Karaoke</h2>
-          <p className="karaoke-subtitle">Baby Can I Hold You</p>
+          <label className="karaoke-song-picker">
+            <span>Choose a song</span>
+            <select value={selectedSongId} onChange={(event) => setSelectedSongId(event.target.value)}>
+              {karaokeSongs.map((song) => <option key={song.id} value={song.id}>{song.title}</option>)}
+            </select>
+          </label>
         </div>
         <span className="karaoke-badge">LINE-SYNCED LYRICS</span>
       </header>
@@ -155,8 +170,9 @@ export default function KaraokePlayer() {
       </div>
 
       <audio
+        key={selectedSong.id}
         ref={audioRef}
-        src={audioUrl}
+        src={selectedSong.audio}
         preload="metadata"
         onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
         onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
