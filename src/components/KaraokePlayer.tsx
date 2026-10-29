@@ -9,10 +9,11 @@ type StemTrack = { id: string; label: string; src: string; icon: LucideIcon }
 
 const stemTypes = [
   { id: 'vocal', suffix: 'vocal', label: 'Vocals', icon: Mic2 },
+  { id: 'backing-vocals', suffix: 'backing_vocals', label: 'Backing Vocals', icon: Mic2 },
   { id: 'drums', suffix: 'drums', label: 'Drums', icon: Drum },
   { id: 'bass', suffix: 'bass', label: 'Bass', icon: Guitar },
   { id: 'guitar', suffix: 'guitar', label: 'Guitar', icon: Guitar },
-  { id: 'piano', suffix: 'piano', label: 'Piano', icon: AudioLines },
+  { id: 'keyboard', suffix: 'keyboard', label: 'Keyboard (Rhodes EP)', icon: AudioLines },
   { id: 'background', suffix: 'background', label: 'Background', icon: AudioLines },
 ] as const
 
@@ -27,7 +28,7 @@ function stemCandidatesFor(songTitle: string): StemTrack[] {
 
 const karaokeSongs = [
   { id: 'baby-can-i-hold-you', title: 'Baby Can I Hold You', audio: '/karaoke/Baby Can I Hold You.mp3', lyrics: '/karaoke/Baby Can I Hold You.lrc', chords: '/karaoke/Baby Can I Hold You.chords', stems: stemCandidatesFor('Baby Can I Hold You') },
-  { id: 'on-and-on', title: 'On and On', audio: '/karaoke/On and On.mp3', lyrics: '/karaoke/On and On.lrc', stems: stemCandidatesFor('On and On'), chords: '' },
+  { id: 'on-and-on', title: 'On and On', audio: '/karaoke/On and On.mp3', lyrics: '/karaoke/On and On.lrc', stems: stemCandidatesFor('On and On').map((stem) => stem.id === 'vocal' ? { ...stem, src: '/karaoke/On and On_vocals.mp3' } : stem), chords: '' },
 ]
 
 function parseLrc(source: string): LyricLine[] {
@@ -259,6 +260,13 @@ export default function KaraokePlayer() {
     stemSourcesRef.current = []
   }
 
+  const chooseSong = (songId: string) => {
+    stopStemSources(false)
+    audioRef.current?.pause()
+    setIsPlaying(false)
+    setSelectedSongId(songId)
+  }
+
   const playStemMix = async (offset: number) => {
     if (!availableStems.length) return
     const context = audioContextRef.current ?? new AudioContext()
@@ -318,7 +326,8 @@ export default function KaraokePlayer() {
       try {
         const response = await fetch(stem.src, { method: 'HEAD', signal: controller.signal })
         const contentType = response.headers.get('content-type')?.toLowerCase() ?? ''
-        return response.ok && (contentType.includes('audio/ogg') || contentType.includes('application/ogg')) ? stem : null
+        const isSupportedAudio = contentType.includes('audio/ogg') || contentType.includes('application/ogg') || contentType.includes('audio/mpeg')
+        return response.ok && isSupportedAudio ? stem : null
       } catch {
         return null
       }
@@ -522,7 +531,7 @@ export default function KaraokePlayer() {
           <h2 id="perform-heading">Karaoke</h2>
           <label className="karaoke-song-picker">
             <span>Choose a song</span>
-            <select value={selectedSongId} onChange={(event) => setSelectedSongId(event.target.value)}>
+            <select value={selectedSongId} onChange={(event) => chooseSong(event.target.value)}>
               {karaokeSongs.map((song) => <option key={song.id} value={song.id}>{song.title}</option>)}
             </select>
           </label>
