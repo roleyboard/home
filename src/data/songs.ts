@@ -86,7 +86,7 @@ export const songs: Song[] = [
   {
     id: 11,
     title: "Beautiful Land",
-    cover: "/covers/Beautiful-Land.jpeg",
+    cover: "/covers/Beautiful-land.jpeg",
     audio: "/audio/beautiful-land.mp3",
   },
 ];

@@ -15,8 +15,8 @@ const stemTypes = [
   { id: 'drums', suffixes: ['drums.ogg'], label: 'Drums', icon: Drum },
   { id: 'bass', suffixes: ['bass.ogg'], label: 'Bass', icon: Guitar },
   { id: 'guitar', suffixes: ['guitar.ogg'], label: 'Guitar', icon: Guitar },
-  { id: 'keyboard', suffixes: ['keyboard.ogg'], label: 'Keyboard (Rhodes EP)', icon: AudioLines },
-  { id: 'background', suffixes: ['background.ogg'], label: 'Background', icon: AudioLines },
+  { id: 'keyboard', suffixes: ['keyboard.ogg'], label: 'Keyboard', icon: AudioLines },
+  { id: 'other', suffixes: ['other.ogg'], label: 'Other', icon: AudioLines },
 ] as const
 
 function stemCandidatesFor(songTitle: string): StemCandidate[] {
